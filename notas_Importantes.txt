@@ -1,0 +1,60 @@
+de este puto archivo: android/app/src/main/AndroidManifest.xml hay que borrar la slineas marcadas para produccion ya que estas permiten las conexiones http
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+  package="com.prueba">
+
+    <uses-permission android:name="android.permission.INTERNET" /> 
+
+    <application
+    <!-- borrar esta para produccion -->
+      android:usesCleartextTraffic="true"
+      tools:targetApi="28"
+      <!-- hasta aqui -->
+
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme">
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>
+
+
+Para acceder a las variables de entorno en el código nativo de Android, sigue estos pasos:
+
+En tu archivo android/app/src/main/java/com/{nombre_del_proyecto}/MainApplication.java, importa la clase Config:
+
+java
+Copy code
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+Luego, agrega la instancia de ReactNativeConfigPackage a la lista de paquetes devueltos en el método getPackages():
+
+java
+Copy code
+protected List<ReactPackage> getPackages() {
+  return Arrays.asList(
+      new MainReactPackage(),
+      new ReactNativeConfigPackage()
+  );
+}
+Ahora puedes usar las variables de entorno en tu código Java:
+
+java
+Copy code
+import com.lugg.ReactNativeConfig.ReactNativeConfig;
+
+String apiUrl = ReactNativeConfig.getString("API_URL");
+String apiKey = ReactNativeConfig.getString("API_KEY");
