@@ -16,6 +16,10 @@ import {
     PRODUCT_TOP_SUCCESS,
     PRODUCT_TOP_FAIL,
 
+    CHECK_AVAILABLE_STOCK_REQUEST,
+    CHECK_AVAILABLE_STOCK_SUCCESS,
+    CHECK_AVAILABLE_STOCK_FAIL,
+
 } from '../constants/productConstants'
 
 export const productListReducers = (state = { products: [] }, action) => {
@@ -54,3 +58,18 @@ export const productDetailsReducers = (state = { product: { reviews: [] } }, act
             return state;
     }
 }
+export const availableStockReducer = (state = {data: { data: [] } }, action) => {
+    switch (action.type) {
+        case CHECK_AVAILABLE_STOCK_REQUEST:
+            return { loading_available: true, ...state }
+
+        case CHECK_AVAILABLE_STOCK_SUCCESS:
+            return { loading_available: false, data: action.payload }
+
+        case CHECK_AVAILABLE_STOCK_FAIL:
+            return { loading_available: false, error: action.payload }
+
+        default:
+            return state;
+    }
+};

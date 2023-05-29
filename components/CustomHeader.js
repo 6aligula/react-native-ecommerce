@@ -21,7 +21,7 @@ const CustomHeader = ({ locationHome, navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.loginButton}>
                     <Icon name="person" size={24} color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={styles.cartButton}>
+                <TouchableOpacity onPress={() => navigation.navigate('CartScreen')} style={styles.cartButton}>
                     <Icon name="cart" size={24} color="#fff" />
                     <View style={styles.cartItemCountContainer}>
                         <Text style={styles.cartItemCount}>{totalItems}</Text>

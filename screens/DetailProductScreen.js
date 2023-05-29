@@ -2,41 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Image, ScrollView, Button, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { listProductDetails } from '../store/actions/productActions';
+import { listProductDetails, checkAvailableStock } from '../store/actions/productActions';
 import { addToCart } from '../store/actions/cartActions';
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import styles from './styles/DetailProductStyle';
-import { useColorSchemeContext } from '../ColorSchemeContext';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 
 function DetailProductScreen({ navigation, route }) {
   useAndroidBackButton(navigation);
-
-  const { stylesGlobal } = useColorSchemeContext();
-  const { productId } = route.params;
   const dispatch = useDispatch();
-
+  const { productId } = route.params;
   const [qty, setQty] = useState(1);
+  // const [cartChange, setCartChange] = useState(false);
+
+  const availableStock = useSelector((state) => state.availableStock);
+  const { loading_available, data } = availableStock;
+  //let available_stock = availableStock ? availableStock.available_stock : null;
+  //console.log('Type of available_stock:', typeof available_stock.available_stock);
 
   const productDetails = useSelector((state) => state.productDetails);
   const { error, loading, product } = productDetails;
 
-  const handleAddToCart = (productId, qty) => {
-    console.log(productId, " ", qty);
-    dispatch(addToCart(productId, qty));
-    //navigation.navigate("CartScreen", {product: productId, qty: qty});
+  const handleAddToCart = async (productId, qty) => {
+    await dispatch(addToCart(productId, qty));
+    // setCartChange(!cartChange);
   };
-
+  
   useEffect(() => {
+    dispatch(checkAvailableStock(productId));
     dispatch(listProductDetails(productId));
+    
   }, [dispatch, productId]);
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView>
-        {loading ? (
+        {loading ? (  
           <Loader />
         ) : error ? (
           <Message variant="danger">{error}</Message>
@@ -52,20 +55,21 @@ function DetailProductScreen({ navigation, route }) {
             </View>
             <Text style={styles.productPrice}>Precio: €{product.price}</Text>
             <Text style={styles.productDescription}>Descripción: {product.description}</Text>
-            {/* Añade aquí el resto de los componentes relacionados con la lógica del componente */}
-            <Text style={styles.productAvailability}>Disponibilidad: {product.countInStock > 0 ? `${product.countInStock} uds ` : 'Fuera de stock'}</Text>
-            {product.countInStock > 0 && (
-              <View style={styles.quantityContainer}>
-                <Text >Selecciona la cantidad:</Text>
-                <Picker
-                  selectedValue={qty}
-                  style={styles.quantityPicker}
-                  onValueChange={(itemValue) => setQty(itemValue)}
-                >
-                  {[...Array(product.countInStock).keys()].map((x) => (
-                    <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
-                  ))}
-                </Picker>
+                <Text style={styles.productAvailability}>Disponibilidad: { data.available_stock > 0
+                  ? `${data.available_stock} uds `
+                  : 'Fuera de stock'}</Text>
+            {data.available_stock  > 0 && (
+                  <View style={styles.quantityContainer}>
+                    <Text >Selecciona la cantidad:</Text>
+                    <Picker
+                      selectedValue={qty}
+                      style={styles.quantityPicker}
+                      onValueChange={(itemValue) => setQty(itemValue)}
+                    >
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
+                      ))}
+                    </Picker>
                     <View style={styles.buttonContainer}>
                       <View style={styles.roundedButton}>
                         <Button
@@ -76,7 +80,7 @@ function DetailProductScreen({ navigation, route }) {
                       </View>
                     </View>
                   </View>
-            )}
+                )}
           </View>
         )}
       </ScrollView>

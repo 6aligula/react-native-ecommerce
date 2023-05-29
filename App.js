@@ -9,6 +9,7 @@ import CustomHeader from './components/CustomHeader';
 import HomeScreen from './screens/HomeScreen';
 import DetailProductScreen from './screens/DetailProductScreen';
 import SearchScreen from './screens/SearchScreen';
+import CartScreen from './screens/CartScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,13 @@ const App = () => {
             <Stack.Screen
               name="SearchScreen"
               component={SearchScreen}
+              options={({ navigation }) => ({
+                header: () => <CustomHeader navigation={navigation} />,
+              })}
+            />
+            <Stack.Screen
+              name="CartScreen"
+              component={CartScreen}
               options={({ navigation }) => ({
                 header: () => <CustomHeader navigation={navigation} />,
               })}
