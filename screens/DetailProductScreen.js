@@ -14,7 +14,7 @@ import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 function DetailProductScreen({ navigation, route }) {
   useAndroidBackButton(navigation);
 
- 
+
   const { stylesGlobal } = useColorSchemeContext();
   const { productId } = route.params;
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ function DetailProductScreen({ navigation, route }) {
             <Text style={styles.productAvailability}>Disponibilidad: {productAvailableStock > 0 ? `${productAvailableStock} uds ` : 'Fuera de stock'}</Text>
             {productAvailableStock > 0 && (
               <View style={styles.quantityContainer}>
-                <Text >Selecciona la cantidad:</Text>
+                <Text style={styles.productDescription}>Selecciona la cantidad:</Text>
                 <Picker
                   selectedValue={qty}
                   style={styles.quantityPicker}
@@ -73,16 +73,16 @@ function DetailProductScreen({ navigation, route }) {
                     <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
                   ))}
                 </Picker>
-                    <View style={styles.buttonContainer}>
-                      <View style={styles.roundedButton}>
-                        <Button
-                          title="Añadir a la cesta"
-                          onPress={() => handleAddToCart(productId, qty)}
-                          color="white" // Cambia el color del texto a blanco
-                        />
-                      </View>
-                    </View>
+                <View style={styles.buttonContainer}>
+                  <View style={styles.roundedButton}>
+                    <Button
+                      title="Añadir a la cesta"
+                      onPress={() => handleAddToCart(productId, qty)}
+                      color="white" // Cambia el color del texto a blanco
+                    />
                   </View>
+                </View>
+              </View>
             )}
           </View>
         )}
