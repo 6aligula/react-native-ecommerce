@@ -19,7 +19,7 @@ import {
     CHECK_AVAILABLE_STOCK_FAIL,
 
 } from '../constants/productConstants';
-const configu = "http://192.168.1.144:8000"
+const configu = "http://192.168.1.141:8000"
 
 export const listProducts = (keyword = '', page = 1) => async (dispatch) => {
     try {
@@ -27,7 +27,7 @@ export const listProducts = (keyword = '', page = 1) => async (dispatch) => {
         dispatch({ type: PRODUCT_LIST_REQUEST })
 
         // Cambiamos la estructura de la URL de la llamada al backend
-        const url = `http://192.168.1.144:8000/api/products/?${keyword ? `keyword=${keyword}` : ''}&page=${page}`;
+        const url = `http://192.168.1.141:8000/api/products/?${keyword ? `keyword=${keyword}` : ''}&page=${page}`;
 
         const { data } = await axios.get(url);
         dispatch({

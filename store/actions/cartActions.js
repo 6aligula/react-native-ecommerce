@@ -12,7 +12,7 @@ import {
     UPDATE_RESERVED_QTY,
 
 } from '../constants/cartConstants';
-const configu = "http://192.168.1.144:8000"
+const configu = "http://192.168.1.141:8000"
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
     try {
