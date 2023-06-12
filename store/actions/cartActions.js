@@ -8,8 +8,12 @@ import {
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_PAYMENT_METHOD
 } from '../constants/cartConstants';
+
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`${Config.API_BASE_URL}/api/products/${id}/`);
+
+//   const currentItem = getState().productDetails.product;
+//   const updatedCountInStock = currentItem.countInStock - qty;
 
   dispatch({
       type: CART_ADD_ITEM,
@@ -22,6 +26,41 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
           qty
       }
   })
+//   dispatch({
+//     type: PRODUCT_STOCK_UPDATE,
+//     payload: {
+//       productId: id,
+//       countInStock: updatedCountInStock
+//     }
+//   });
 
   AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
+
+export const removeFromCart = (id) => (dispatch, getState) => {
+    dispatch({
+        type: CART_REMOVE_ITEM,
+        payload: id,
+    })
+
+    AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+}
+// export const removeFromCart = (id) => (dispatch, getState) => {
+//     // const currentItem = getState().cart.cartItems.find(x => x.product === id);
+//     // const updatedCountInStock = getState().productDetails.product.countInStock + currentItem.qty;
+  
+//     dispatch({
+//       type: CART_REMOVE_ITEM,
+//       payload: id,
+//     });
+  
+//     // dispatch({
+//     //   type: PRODUCT_STOCK_UPDATE,
+//     //   payload: {
+//     //     productId: id,
+//     //     countInStock: updatedCountInStock
+//     //   }
+//     // });
+  
+//     AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+//   };

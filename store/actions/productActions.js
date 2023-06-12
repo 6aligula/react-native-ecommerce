@@ -14,6 +14,8 @@ import {
     PRODUCT_CREATE_REVIEW_SUCCESS,
     PRODUCT_CREATE_REVIEW_FAIL,
 
+    PRODUCT_STOCK_UPDATE,
+
 } from '../constants/productConstants';
 
 export const listProducts = (keyword = '', page = 1) => async (dispatch) => {
@@ -67,43 +69,12 @@ export const listProductDetails = (id) => async (dispatch) => {
         })
     }
 }
-
-// export const createProductReview = (productId, review) => async (dispatch, getState) => {
-//     try {
-//         dispatch({
-//             type: PRODUCT_CREATE_REVIEW_REQUEST
-
-//         })
-
-//         const {
-//             userLogin: { userInfo },
-//         } = getState()
-
-//         const config = {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${userInfo.token}`
-//             }
+// export const updateProductStock = (id, newCountInStock) => async (dispatch) => {
+//     dispatch({
+//         type: PRODUCT_STOCK_UPDATE,
+//         payload: {
+//             productId: id,
+//             countInStock: newCountInStock
 //         }
-
-//         const { data } = await axios.post(
-//             `/api/products/${productId}/reviews/`,
-//             review,
-//             config
-//         )
-
-//         dispatch({
-//             type: PRODUCT_CREATE_REVIEW_SUCCESS,
-//             payload: data,
-//         })
-
-
-//     } catch (error) {
-//         dispatch({
-//             type: PRODUCT_CREATE_REVIEW_FAIL,
-//             payload: error.response && error.response.data.detail
-//                 ? error.response.data.detail
-//                 : error.message,
-//         })
-//     }
-// }
+//     })
+// }  

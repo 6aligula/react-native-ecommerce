@@ -14,6 +14,7 @@ import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 function DetailProductScreen({ navigation, route }) {
   useAndroidBackButton(navigation);
 
+ 
   const { stylesGlobal } = useColorSchemeContext();
   const { productId } = route.params;
   const dispatch = useDispatch();
@@ -21,10 +22,16 @@ function DetailProductScreen({ navigation, route }) {
   const [qty, setQty] = useState(1);
 
   const productDetails = useSelector((state) => state.productDetails);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  const productInCart = cartItems.find(item => item.product === productId);
+  const productInCartQty = productInCart ? productInCart.qty : 0;
+  const productAvailableStock = productDetails.product.countInStock - productInCartQty;
+
   const { error, loading, product } = productDetails;
 
   const handleAddToCart = (productId, qty) => {
-    console.log(productId, " ", qty);
+    console.log('id', productId, "qty: ", qty, 'productInCartQty: ', productInCartQty, 'productAvailableStock', productAvailableStock);
     dispatch(addToCart(productId, qty));
     //navigation.navigate("CartScreen", {product: productId, qty: qty});
   };
@@ -53,8 +60,8 @@ function DetailProductScreen({ navigation, route }) {
             <Text style={styles.productPrice}>Precio: €{product.price}</Text>
             <Text style={styles.productDescription}>Descripción: {product.description}</Text>
             {/* Añade aquí el resto de los componentes relacionados con la lógica del componente */}
-            <Text style={styles.productAvailability}>Disponibilidad: {product.countInStock > 0 ? `${product.countInStock} uds ` : 'Fuera de stock'}</Text>
-            {product.countInStock > 0 && (
+            <Text style={styles.productAvailability}>Disponibilidad: {productAvailableStock > 0 ? `${productAvailableStock} uds ` : 'Fuera de stock'}</Text>
+            {productAvailableStock > 0 && (
               <View style={styles.quantityContainer}>
                 <Text >Selecciona la cantidad:</Text>
                 <Picker
@@ -62,7 +69,7 @@ function DetailProductScreen({ navigation, route }) {
                   style={styles.quantityPicker}
                   onValueChange={(itemValue) => setQty(itemValue)}
                 >
-                  {[...Array(product.countInStock).keys()].map((x) => (
+                  {[...Array(productAvailableStock).keys()].map((x) => (
                     <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
                   ))}
                 </Picker>
