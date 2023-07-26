@@ -11,7 +11,7 @@ import SearchBox from '../components/SearchBox'
 import styles from './styles/HomeStyles';
 import { useColorSchemeContext } from '../ColorSchemeContext';
 
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = ({ navigation }) => {
   const { stylesGlobal } = useColorSchemeContext();
 
   const dispatch = useDispatch();

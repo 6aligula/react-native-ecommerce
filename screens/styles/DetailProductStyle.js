@@ -53,18 +53,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     roundedButton: {
-        backgroundColor: 'red', // Color de fondo del botón (puedes cambiarlo a tu preferencia)
         borderRadius: 25, // Añade bordes redondeados
         overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
-        marginBottom: 8,
+    },
+    quantityContainer: {
+        marginBottom: 16,
     },
 
     quantityPicker: {
         backgroundColor:'#ECECEC',
         fontSize: 16,
         color: '#34495e',
-        marginBottom: 16,
         marginTop: 8, 
+        marginBottom: 8,
     },
 
 

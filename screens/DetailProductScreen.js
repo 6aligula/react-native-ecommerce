@@ -50,8 +50,12 @@ function DetailProductScreen({ navigation, route }) {
         ) : (
           <View style={styles.container}>
             <Text style={[styles.title]}>Detalles del producto</Text>
+            {product && product.image ? (
+              <Image source={{ uri: product.image }} style={styles.productImage} />
+            ) : (
+              <Loader />
+            )}
 
-            <Image source={{ uri: product.image }} style={styles.productImage} />
             <Text style={styles.productName}>{product.name}</Text>
             <View style={styles.rating}>
               <Rating value={product.rating} />
@@ -78,7 +82,7 @@ function DetailProductScreen({ navigation, route }) {
                     <Button
                       title="Añadir a la cesta"
                       onPress={() => handleAddToCart(productId, qty)}
-                      color="white" // Cambia el color del texto a blanco
+                    // color='red' cambia el fondo del boton en android y las letras en iOS
                     />
                   </View>
                 </View>
