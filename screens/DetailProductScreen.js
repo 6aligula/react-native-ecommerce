@@ -8,38 +8,40 @@ import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import styles from './styles/DetailProductStyle';
-import { useColorSchemeContext } from '../ColorSchemeContext';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 
 function DetailProductScreen({ navigation, route }) {
   useAndroidBackButton(navigation);
 
-
-  const { stylesGlobal } = useColorSchemeContext();
   const { productId } = route.params;
   const dispatch = useDispatch();
-
-  const [qty, setQty] = useState(1);
-
-  const productDetails = useSelector((state) => state.productDetails);
   const cartItems = useSelector((state) => state.cart.cartItems);
 
+  const productDetails = useSelector((state) => state.productDetails);
+  const { error, loading, product } = productDetails;
   const productInCart = cartItems.find(item => item.product === productId);
   const productInCartQty = productInCart ? productInCart.qty : 0;
-  const productAvailableStock = productDetails.product.countInStock - productInCartQty;
+  const productAvailableStock = product ? product.countInStock - productInCartQty : 0;
+  //const [pickerMaxValue, setPickerMaxValue] = useState(productAvailableStock);
+  const [qty, setQty] = useState(productInCartQty + 1);
 
-  const { error, loading, product } = productDetails;
-
-  const handleAddToCart = (productId, qty) => {
-    console.log('id', productId, "qty: ", qty, 'productInCartQty: ', productInCartQty, 'productAvailableStock', productAvailableStock);
-    dispatch(addToCart(productId, qty));
-    //navigation.navigate("CartScreen", {product: productId, qty: qty});
+  const handleAddToCart = (selectedQty) => {
+    console.log("id: ", productId, "cantidad: ", selectedQty)
+    //console.log("id: ", productId, "newQty: ", newQty)
+    dispatch(addToCart(productId, selectedQty));
   };
 
   useEffect(() => {
     dispatch(listProductDetails(productId));
   }, [dispatch, productId]);
 
+  useEffect(() => {
+    if (productAvailableStock < qty) {
+      setQty(productAvailableStock);
+    }
+    //setPickerMaxValue( productAvailableStock);
+
+  }, [productAvailableStock]);
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView>
@@ -71,7 +73,10 @@ function DetailProductScreen({ navigation, route }) {
                 <Picker
                   selectedValue={qty}
                   style={styles.quantityPicker}
-                  onValueChange={(itemValue) => setQty(itemValue)}
+                  onValueChange={(itemValue) => {
+                    console.log("Picker cambió:", itemValue);
+                    setQty(itemValue);
+                  }}
                 >
                   {[...Array(productAvailableStock).keys()].map((x) => (
                     <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
@@ -81,8 +86,7 @@ function DetailProductScreen({ navigation, route }) {
                   <View style={styles.roundedButton}>
                     <Button
                       title="Añadir a la cesta"
-                      onPress={() => handleAddToCart(productId, qty)}
-                    // color='red' cambia el fondo del boton en android y las letras en iOS
+                      onPress={() => handleAddToCart(qty)}
                     />
                   </View>
                 </View>

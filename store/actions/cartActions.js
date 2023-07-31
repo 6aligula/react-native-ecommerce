@@ -11,9 +11,7 @@ import {
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`${Config.API_BASE_URL}/api/products/${id}/`);
-
-//   const currentItem = getState().productDetails.product;
-//   const updatedCountInStock = currentItem.countInStock - qty;
+  //console.log(`url:  ${Config.API_BASE_URL}`);
 
   dispatch({
       type: CART_ADD_ITEM,
@@ -26,15 +24,6 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
           qty
       }
   })
-//   dispatch({
-//     type: PRODUCT_STOCK_UPDATE,
-//     payload: {
-//       productId: id,
-//       countInStock: updatedCountInStock
-//     }
-//   });
-
-  AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 
 export const removeFromCart = (id) => (dispatch, getState) => {
@@ -43,7 +32,7 @@ export const removeFromCart = (id) => (dispatch, getState) => {
         payload: id,
     })
 
-    AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+    //AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 // export const removeFromCart = (id) => (dispatch, getState) => {
 //     // const currentItem = getState().cart.cartItems.find(x => x.product === id);

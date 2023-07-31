@@ -64,7 +64,6 @@ function CartScreen() {
                   style={styles.roundedButton} 
                   title='Remove' 
                   onPress={() => removeFromCartHandler(item.product)} 
-                  color= "white"
                   />
                   
                 </View>
