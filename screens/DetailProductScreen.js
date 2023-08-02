@@ -26,7 +26,6 @@ function DetailProductScreen({ navigation, route }) {
 
   const handleAddToCart = (selectedQty) => {
     console.log("id: ", productId, "cantidad: ", selectedQty)
-    //console.log("id: ", productId, "newQty: ", newQty)
     dispatch(addToCart(productId, selectedQty));
   };
 

@@ -25,13 +25,14 @@ export const addToCart = (id, qty) => async (dispatch) => {
   })
 }
 
-export const removeFromCart = (id) => (dispatch) => {
+export const removeFromCart = (id, qty) => (dispatch) => {
     dispatch({
         type: CART_REMOVE_ITEM,
-        payload: id,
+        payload: {
+            id,
+            qty
+        }
     })
-
-    //AsyncStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
 // export const removeFromCart = (id) => (dispatch, getState) => {
 //     // const currentItem = getState().cart.cartItems.find(x => x.product === id);

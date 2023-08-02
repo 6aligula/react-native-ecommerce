@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Image, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../store/actions/cartActions';
@@ -7,25 +7,30 @@ import { Picker } from '@react-native-picker/picker';
 import styles from './styles/CartStyles';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 
-function CartScreen({ navigation, route }) {
-
+function CartScreen({ navigation }) {
   useAndroidBackButton(navigation);
-  //const route = useRoute();
-  //const navigation = useNavigation();
-
-  //const { productId } = route.params;
-  const qty = route.params?.qty || 1;
 
   const dispatch = useDispatch();
-
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
-  //console.log(JSON.stringify(cartItems, null, 2));
-  cartItems.forEach(item => console.log(item?.product_id));
+
+  const [selectedQtys, setSelectedQtys] = useState({});
+
+  useEffect(() => {
+    setSelectedQtys(
+      cartItems.reduce((acc, item) => ({ ...acc, [item.product]: item.qty }), {})
+    );
+  }, [cartItems]);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
-  }
+    const qtyToRemove = selectedQtys[id] || 1;
+    console.log("id: ", id, "cantidad: ", qtyToRemove)
+    dispatch(removeFromCart(id, qtyToRemove));
+  };
+
+  const handleQuantityChange = (product, qty) => {
+    setSelectedQtys({ ...selectedQtys, [product]: qty });
+  };
 
   const checkoutHandler = () => {
     navigation.navigate('Shipping');
@@ -46,9 +51,14 @@ function CartScreen({ navigation, route }) {
                 <Text style={styles.productPrice}>€{item.price}</Text>
                 <View style={styles.quantityContainer}>
                   <Picker
-                    selectedValue={item.qty}
+                    selectedValue={selectedQtys[item.product] || item.qty}
                     style={styles.quantityPicker}
-                  // onValueChange={(value) => dispatch(addToCart(item.product, Number(value)))}
+                    onValueChange={(itemValue) => {
+                      console.log("Picker cambio delete: ", itemValue);
+                      handleQuantityChange(item.product, itemValue)
+
+                    }}
+                    
                   >
                     {[...Array(item.qty).keys()].map((x) => (
                       <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
