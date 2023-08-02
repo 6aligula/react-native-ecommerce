@@ -22,7 +22,6 @@ function DetailProductScreen({ navigation, route }) {
   const productInCart = cartItems.find(item => item.product === productId);
   const productInCartQty = productInCart ? productInCart.qty : 0;
   const productAvailableStock = product ? product.countInStock - productInCartQty : 0;
-  //const [pickerMaxValue, setPickerMaxValue] = useState(productAvailableStock);
   const [qty, setQty] = useState(productInCartQty + 1);
 
   const handleAddToCart = (selectedQty) => {
@@ -39,7 +38,6 @@ function DetailProductScreen({ navigation, route }) {
     if (productAvailableStock < qty) {
       setQty(productAvailableStock);
     }
-    //setPickerMaxValue( productAvailableStock);
 
   }, [productAvailableStock]);
   return (

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
 
 import {
@@ -9,7 +8,7 @@ import {
     CART_SAVE_PAYMENT_METHOD
 } from '../constants/cartConstants';
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
+export const addToCart = (id, qty) => async (dispatch) => {
   const { data } = await axios.get(`${Config.API_BASE_URL}/api/products/${id}/`);
   //console.log(`url:  ${Config.API_BASE_URL}`);
 
@@ -26,7 +25,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   })
 }
 
-export const removeFromCart = (id) => (dispatch, getState) => {
+export const removeFromCart = (id) => (dispatch) => {
     dispatch({
         type: CART_REMOVE_ITEM,
         payload: id,

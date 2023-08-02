@@ -33,14 +33,22 @@ const styles = StyleSheet.create({
         color: '#2c3e50',
         textAlign: 'center',
     },
+    subtitle: {
+        fontSize: 18,
+        fontWeight: 'normal',
+        marginTop: 8,
+        marginBottom: 4,
+        color: '#34495e',
+        textAlign: 'center',
+    },
+    
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
     roundedButton: {
-        backgroundColor: '#007BFF', // Color de fondo del botón (puedes cambiarlo a tu preferencia)
-        borderRadius: 25, // Añade bordes redondeados
+        borderRadius: 50, // Añade bordes redondeados
         overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
     },
     quantityLabel: {
@@ -48,11 +56,15 @@ const styles = StyleSheet.create({
         marginBottom: 1, // Añade un margen inferior más pequeño
     },
 
-    quantityPicker: {
-        // ... Otros estilos
-        marginTop: -25, // Añade un margen superior negativo para acercar el Picker al texto
+    quantityContainer: {
+        marginBottom: 16,
     },
-
-
+    quantityPicker: {
+        backgroundColor:'#ECECEC',
+        fontSize: 16,
+        color: '#34495e',
+        marginTop: 8, 
+        marginBottom: 8,
+    },
 });
 export default styles;
