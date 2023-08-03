@@ -54,6 +54,11 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       } else {
         return state; // No hay cambios si el ítem no se encuentra
       }
+    case CART_SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload
+      }
 
     default:
       return state

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Image, View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Button, Image, View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../store/actions/cartActions';
-//import {  useRoute } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles/CartStyles';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
@@ -33,7 +32,7 @@ function CartScreen({ navigation }) {
   };
 
   const checkoutHandler = () => {
-    navigation.navigate('Shipping');
+    navigation.navigate('ShippingForm');
   }
 
   return (
@@ -54,7 +53,7 @@ function CartScreen({ navigation }) {
                     selectedValue={selectedQtys[item.product] || item.qty}
                     style={styles.quantityPicker}
                     onValueChange={(itemValue) => {
-                      console.log("Picker cambio delete: ", itemValue);
+                      //console.log("Picker cambio delete: ", itemValue);
                       handleQuantityChange(item.product, itemValue)
 
                     }}
@@ -83,12 +82,13 @@ function CartScreen({ navigation }) {
               <View style={styles.buttonContainer}>
                 <View style={styles.roundedButton}>
                   <Button
-                    title='Pagar'
+                    title='Proceder al pago'
                     disabled={cartItems.length === 0}
                     onPress={checkoutHandler}
                   />
                 </View>
               </View>
+              
             </View>
           </>
         )}
