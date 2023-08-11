@@ -34,7 +34,6 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={[styles.container, stylesGlobal.background]}>
       <SearchBox navigation={navigation} />
-      {/* {searchError && <Message variant="danger">{searchError}</Message>} */}
       <Text style={[styles.title, stylesGlobal.text]}>Últimos productos</Text>
       {loading ? (
         <Loader />

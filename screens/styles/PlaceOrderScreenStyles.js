@@ -68,6 +68,18 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
     },
+    safeAreaContainer: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    roundedButton: {
+        borderRadius: 50, // Añade bordes redondeados
+        overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
+    },
 });
 
 export default styles;

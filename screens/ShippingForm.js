@@ -29,8 +29,12 @@ function ShippingForm({ navigation }) {
     const [province, setProvince] = useState(initialProvince);
     const [city, setCity] = useState(initialCity);
     const [postalCode, setPostalCode] = useState('');
-    const [streetAddress, setStreetAddress] = useState('');
+    const [address, setAddress] = useState('');
     const [comment, setComment] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobil, setMobil] = useState('');
+    const [error, setError] = useState('');
+    const [emailValid, setEmailValid] = useState(true);
 
     useEffect(() => {
         if (shippingAddress) {
@@ -38,17 +42,40 @@ function ShippingForm({ navigation }) {
             setProvince(shippingAddress.province || initialProvince);
             setCity(shippingAddress.city || initialCity);
             setPostalCode(shippingAddress.postalCode || '');
-            setStreetAddress(shippingAddress.streetAddress || '');
+            setAddress(shippingAddress.address || '');
             setComment(shippingAddress.comment || '');
+            setEmail(shippingAddress.email || '');
+            setMobil(shippingAddress.mobil || '');
+
         }
     }, [shippingAddress, initialProvince, initialCity]);
 
     const handleSubmit = () => {
-        dispatch(saveShippingAddress({ recipientName, province, city, postalCode, streetAddress, comment }));
+        if (!recipientName || !province || !city || !postalCode || !address || !email) {
+            setError('Todos los campos son obligatorios, excepto el teléfono móvil y comentario.');
+            return;
+        }
+        setError('');
+        dispatch(saveShippingAddress({ recipientName, province, city, postalCode, address, comment, email, mobil }));
         //console.log(recipientName, province, city, postalCode, streetAddress, comment);
         navigation.navigate('PlaceOrderScreen');
     };
 
+    const validateEmail = (email) => {
+        // Nota: he eliminado las letras mayúsculas 'A-Z' de la expresión regular.
+        const regex = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+        return regex.test(email);
+    };
+    
+    const handleEmailChange = (email) => {
+        setEmail(email);
+        if (!validateEmail(email)) {
+            setEmailValid(false);
+        } else {
+            setEmailValid(true);
+        }
+    };
+    
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <ScrollView style={styles.formContainer}>
@@ -102,9 +129,28 @@ function ShippingForm({ navigation }) {
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Dirección:</Text>
                     <TextInput
-                        value={streetAddress}
-                        onChangeText={setStreetAddress}
+                        value={address}
+                        onChangeText={setAddress}
                         style={styles.input}
+                    />
+                </View>
+                <View style={styles.inputField}>
+                    <Text style={styles.label}>Email:</Text>
+                    <TextInput
+                        value={email}
+                        onChangeText={handleEmailChange}
+                        style={emailValid ? styles.input : { ...styles.input, borderColor: 'red' }}
+                    />
+                    {!emailValid && <Text style={{ color: 'red' }}>Por favor, ingresa un correo electrónico válido. Solo se acepta letras minúsculas</Text>}
+                </View>
+
+                <View style={styles.inputField}>
+                    <Text style={styles.label}>Telefono móvil opcional:</Text>
+                    <TextInput
+                        value={mobil}
+                        onChangeText={setMobil}
+                        style={styles.input}
+                        keyboardType='numeric'
                     />
                 </View>
                 <View style={styles.inputField}>
@@ -116,6 +162,9 @@ function ShippingForm({ navigation }) {
                         multiline
                     />
                 </View>
+                {
+                    error && <Text style={{ color: 'red' }}>{error}</Text>
+                }
                 <View style={styles.buttonContainer}>
                     <View style={styles.roundedButton}>
                         <Button

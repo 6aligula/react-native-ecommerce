@@ -5,7 +5,8 @@ import { cartReducer } from './cartReducers';
 import {
     productListReducers,
     productDetailsReducers,
-} from './productReducers'
+} from './productReducers';
+import { orderCreateReducer } from './orderReducer';
 
 // const persistConfig = {
 //     key: 'cart',
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     productList: productListReducers,
     productDetails: productDetailsReducers,
+    orderCreate: orderCreateReducer, 
 });
 
 export default rootReducer;

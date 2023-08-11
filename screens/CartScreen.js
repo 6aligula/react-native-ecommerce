@@ -16,9 +16,12 @@ function CartScreen({ navigation }) {
   const [selectedQtys, setSelectedQtys] = useState({});
 
   useEffect(() => {
+    
     setSelectedQtys(
       cartItems.reduce((acc, item) => ({ ...acc, [item.product]: item.qty }), {})
+      
     );
+    console.log("Cantidades de los artículos:", cartItems.map(item => ({ id: item.product, qty: item.qty })));
   }, [cartItems]);
 
   const removeFromCartHandler = (id) => {
@@ -82,7 +85,7 @@ function CartScreen({ navigation }) {
               <View style={styles.buttonContainer}>
                 <View style={styles.roundedButton}>
                   <Button
-                    title='Proceder al pago'
+                    title='Siguiente'
                     disabled={cartItems.length === 0}
                     onPress={checkoutHandler}
                   />

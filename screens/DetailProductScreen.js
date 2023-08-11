@@ -19,10 +19,18 @@ function DetailProductScreen({ navigation, route }) {
 
   const productDetails = useSelector((state) => state.productDetails);
   const { error, loading, product } = productDetails;
-  const productInCart = cartItems.find(item => item.product === productId);
-  const productInCartQty = productInCart ? productInCart.qty : 0;
-  const productAvailableStock = product ? product.countInStock - productInCartQty : 0;
-  const [qty, setQty] = useState(productInCartQty + 1);
+
+  const calculateAvailableStock = () => {
+    const itemInCart = cartItems.find(item => item.product === productId);
+    const itemInCartQty = itemInCart ? itemInCart.qty : 0;
+    return product.countInStock ? product.countInStock - itemInCartQty : 0;
+
+  }
+
+  const [qtyDetail, setQtyDetail] = useState(() => {
+    const productInCart = cartItems.find(item => item.product === productId);
+    return productInCart ? productInCart.qty : 0;
+  });
 
   const handleAddToCart = (selectedQty) => {
     console.log("id: ", productId, "cantidad: ", selectedQty)
@@ -30,15 +38,26 @@ function DetailProductScreen({ navigation, route }) {
   };
 
   useEffect(() => {
+    console.log("id: ", productId, "1er usseEffect qty: ", qtyDetail)
     dispatch(listProductDetails(productId));
   }, [dispatch, productId]);
 
   useEffect(() => {
-    if (productAvailableStock < qty) {
-      setQty(productAvailableStock);
-    }
+    const availableStock = calculateAvailableStock();
+    console.log("id: ", productId, "2do useEffect qty: ", qtyDetail, 'disponible ', availableStock)
 
-  }, [productAvailableStock]);
+    // Si qtyDetail es cero (o no definido), lo establecemos al availableStock
+    if (qtyDetail <= 0) {
+      setQtyDetail(availableStock);
+    } else if (typeof availableStock === "number" && !isNaN(availableStock) && availableStock < qtyDetail) {
+      // Si qtyDetail es mayor que el availableStock, ajustamos qtyDetail
+      console.log("id: ", productId, "dentro del if qty: ", qtyDetail, 'disponible ', availableStock)
+      setQtyDetail(availableStock);
+    }
+  }, [product, cartItems]);
+
+  const availableStock = calculateAvailableStock();
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView>
@@ -63,19 +82,19 @@ function DetailProductScreen({ navigation, route }) {
             <Text style={styles.productPrice}>Precio: €{product.price}</Text>
             <Text style={styles.productDescription}>Descripción: {product.description}</Text>
             {/* Añade aquí el resto de los componentes relacionados con la lógica del componente */}
-            <Text style={styles.productAvailability}>Disponibilidad: {productAvailableStock > 0 ? `${productAvailableStock} uds ` : 'Fuera de stock'}</Text>
-            {productAvailableStock > 0 && (
+            <Text style={styles.productAvailability}>Disponibilidad: {availableStock > 0 ? `${availableStock} uds ` : 'Fuera de stock'}</Text>
+            {availableStock > 0 && (
               <View style={styles.quantityContainer}>
                 <Text style={styles.productDescription}>Selecciona la cantidad:</Text>
                 <Picker
-                  selectedValue={qty}
+                  selectedValue={qtyDetail}
                   style={styles.quantityPicker}
                   onValueChange={(itemValue) => {
-                    console.log("Picker cambió:", itemValue);
-                    setQty(itemValue);
+                    console.log("Picker cambió:", itemValue, 'qtyDetail: ', qtyDetail);
+                    setQtyDetail(itemValue);
                   }}
                 >
-                  {[...Array(productAvailableStock).keys()].map((x) => (
+                  {[...Array(availableStock).keys()].map((x) => (
                     <Picker.Item key={x + 1} label={String(x + 1)} value={x + 1} />
                   ))}
                 </Picker>
@@ -83,7 +102,7 @@ function DetailProductScreen({ navigation, route }) {
                   <View style={styles.roundedButton}>
                     <Button
                       title="Añadir a la cesta"
-                      onPress={() => handleAddToCart(qty)}
+                      onPress={() => handleAddToCart(qtyDetail)}
                     />
                   </View>
                 </View>

@@ -20,7 +20,7 @@ import {
 
 export const listProducts = (keyword = '', page = 1) => async (dispatch) => {
     try {
-        //console.log("data: ", Config.API_BASE_URL);
+        console.log("data: ", Config.API_BASE_URL);
         dispatch({ type: PRODUCT_LIST_REQUEST })
 
         // Cambiamos la estructura de la URL de la llamada al backend
