@@ -6,6 +6,12 @@ import {
     productListReducers,
     productDetailsReducers,
 } from './productReducers';
+import {
+    userLoginReducer,
+    userRegisterReducer,
+    userDetailsReducer,
+    userUpdateProfileReducer,
+} from './userReducers';
 import { orderCreateReducer } from './orderReducer';
 
 // const persistConfig = {
@@ -17,6 +23,10 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     productList: productListReducers,
     productDetails: productDetailsReducers,
+    userLogin : userLoginReducer,
+    userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
+    userUpdateProfile : userUpdateProfileReducer,
     orderCreate: orderCreateReducer, 
 });
 

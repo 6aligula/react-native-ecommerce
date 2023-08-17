@@ -11,6 +11,9 @@ import DetailProductScreen from './screens/DetailProductScreen';
 import SearchScreen from './screens/SearchScreen';
 import CartScreen from './screens/CartScreen';
 import ShippingForm from './screens/ShippingForm';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
@@ -75,6 +78,27 @@ const App = () => {
                 <Stack.Screen
                   name="ShippingForm"
                   component={ShippingForm}
+                  options={({ navigation }) => ({
+                    header: () => <CustomHeader navigation={navigation} />,
+                  })}
+                />
+                <Stack.Screen
+                  name="LoginScreen"
+                  component={LoginScreen}
+                  options={({ navigation }) => ({
+                    header: () => <CustomHeader navigation={navigation} />,
+                  })}
+                />
+                <Stack.Screen
+                  name="RegisterScreen"
+                  component={RegisterScreen}
+                  options={({ navigation }) => ({
+                    header: () => <CustomHeader navigation={navigation} />,
+                  })}
+                />
+                <Stack.Screen
+                  name="ProfileScreen"
+                  component={ProfileScreen}
                   options={({ navigation }) => ({
                     header: () => <CustomHeader navigation={navigation} />,
                   })}

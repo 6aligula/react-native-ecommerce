@@ -7,6 +7,7 @@ import arbol from '../data/arbol.json'
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAddress } from '../store/actions/cartActions';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
+import { validateEmail } from '../functions/functions';
 
 const provincesAndCities = arbol.reduce((result, region) => {
     region.provinces.forEach(province => {
@@ -59,12 +60,6 @@ function ShippingForm({ navigation }) {
         dispatch(saveShippingAddress({ recipientName, province, city, postalCode, address, comment, email, mobil }));
         //console.log(recipientName, province, city, postalCode, streetAddress, comment);
         navigation.navigate('PlaceOrderScreen');
-    };
-
-    const validateEmail = (email) => {
-        // Nota: he eliminado las letras mayúsculas 'A-Z' de la expresión regular.
-        const regex = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        return regex.test(email);
     };
     
     const handleEmailChange = (email) => {

@@ -30,14 +30,18 @@ const PlaceOrderScreen = ({ navigation }) => {
     //         dispatch({ type: ORDER_CREATE_RESET });
     //     }
     // }, [success, navigation, dispatch]);
-
+    userInfo = ''
     const placeOrder = () => {
-        dispatch(createOrder({
+        let orderData = {
             orderItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
             shippingPrice: cart.shippingPrice,
             totalPrice: totalPrice,
-        }));
+        };
+        if (!userInfo) {
+            orderData.email = email;  // Usa el email introducido previamente
+        }
+        dispatch(createOrder(orderData));
     };
 
     const handlePayment = async () => {

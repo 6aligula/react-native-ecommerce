@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row', // Añadido para que los íconos estén en fila
     },
     loginButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
         marginRight: 10, // Añadido para separar los íconos
     },
     cartButton: {
@@ -41,7 +43,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-
+    usernameText: {
+        color: '#fff',
+        marginLeft: 5,
+        fontSize: 16,
+    },
 });
 
 export default styles;

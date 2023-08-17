@@ -9,6 +9,9 @@ const CustomHeader = ({ locationHome, navigation }) => {
     const cartItems = useSelector((state) => state.cart.cartItems);
     const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
+    const userLogin = useSelector((state) => state.userLogin);
+    const {userInfo} = userLogin;
+
     return (
         <SafeAreaView>
             <View style={styles.container}>
@@ -18,8 +21,10 @@ const CustomHeader = ({ locationHome, navigation }) => {
                     </TouchableOpacity>
                 )}
                 <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" />
-                <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.loginButton}>
-                    <Icon name="person" size={24} color="#fff" />
+                
+                <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} style={styles.loginButton}>
+                    <Icon name="person" size={24} color={userInfo ? "green" : "#fff"} />
+                    {userInfo && <Text style={styles.usernameText}>{userInfo.name}</Text>}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('CartScreen')} style={styles.cartButton}>
                     <Icon name="cart" size={24} color="#fff" />
