@@ -28,6 +28,7 @@ const LoginScreen = ({ navigation }) => {
             console.log('dentro del if en LoginScreen');
             navigation.replace('ProfileScreen');
         }
+        
     }, [navigation, userInfo]);
 
     const submitHandler = () => {
