@@ -30,9 +30,13 @@ const RegisterScreen = () => {
     }, [navigation, userInfo]);
 
     const submitHandler = () => {
-        if (password !== confirmPassword) {
+        const trimmedPassword = password.trim();
+        const trimmedConfirmPassword = confirmPassword.trim();
+        if (trimmedPassword !== trimmedConfirmPassword) {
             setMessage('Las contraseñas no coinciden');
-        } else {
+        } 
+        else {
+            setMessage('')
             dispatch(register(name, email, password));
         }
     };

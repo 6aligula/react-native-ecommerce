@@ -10,6 +10,7 @@ import styles from './styles/ProfileStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import Message from '../components/Message';
+import PasswordInput from '../components/PasswordInput';
 
 const ProfileScreen = () => {
     const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ const ProfileScreen = () => {
     const [name, setName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -29,7 +31,7 @@ const ProfileScreen = () => {
     const { userInfo } = userLogin;
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-    const { success } = userUpdateProfile;
+    const { success, errorProfile } = userUpdateProfile;
 
     // const orderListMy = useSelector(state => state.orderListMy);
     // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
@@ -46,6 +48,7 @@ const ProfileScreen = () => {
             if (!user || !user.name || success || userInfo._id !== user._id) {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
+                setSuccessMessage('Perfil actualizado correctamente')
                 //dispatch(listMyOrders())
             } else {
                 setName(user.name);
@@ -55,9 +58,11 @@ const ProfileScreen = () => {
     }, [dispatch, userInfo, user, success]);
 
     const submitHandler = () => {
-        if (password !== confirmPassword) {
+        const trimmedPassword = password.trim();
+        const trimmedConfirmPassword = confirmPassword.trim();
+        if (trimmedPassword !== trimmedConfirmPassword) {
             setMessage('Las contraseñas no coinciden');
-            Alert.alert('Error', message);
+            
         } else {
             //console.log('actualizando');
             dispatch(updateUserProfile({
@@ -79,8 +84,10 @@ const ProfileScreen = () => {
                         <Text style={styles.logoutText}>Salir</Text>
                     </TouchableOpacity>
                     <Text style={styles.title}>Perfil de Usuario</Text>
-                    {message && <Text style={styles.errorMessage}>{message}</Text>}
-                    {error && <Text style={styles.errorMessage}>{error}</Text>}
+                    {message && <Message variant='danger'>{message}</Message>}
+                    {error && <Message variant='danger'>{error}</Message>}
+                    {errorProfile && <Message variant='danger'>{errorProfile}</Message>}
+                    {successMessage && <Message variant='success'>{successMessage}</Message>}
                     {loading && <Text>Cargando...</Text>}
 
                     <TextInput
@@ -95,19 +102,13 @@ const ProfileScreen = () => {
                         value={email}
                         onChangeText={setEmail}
                     />
-                    <TextInput
-                        style={[styles.inputField, styles.input]}
-                        placeholder="Introduce contraseña"
-                        placeholderTextColor="#888"
-                        secureTextEntry={true}
+                     <PasswordInput
                         value={password}
                         onChangeText={setPassword}
+                        placeholder="Introduce contraseña"
                     />
-                    <TextInput
-                        style={[styles.inputField, styles.input]}
+                    <PasswordInput
                         placeholder="Confirmar contraseña"
-                        placeholderTextColor="#888"
-                        secureTextEntry={true}
                         value={confirmPassword}
                         onChangeText={setConfirmPassword}
                     />
