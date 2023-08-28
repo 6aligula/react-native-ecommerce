@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails, updateUserProfile, logout } from '../store/actions/userActions';
-import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { USER_UPDATE_PROFILE_RESET } from '../store/constants/userConstants';
 //import { listMyOrders } from '../actions/orderActions';
@@ -11,8 +10,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import Message from '../components/Message';
 import PasswordInput from '../components/PasswordInput';
+import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
+    useAndroidBackButton(navigation);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -21,8 +22,6 @@ const ProfileScreen = () => {
     const [successMessage, setSuccessMessage] = useState('');
 
     const dispatch = useDispatch();
-    const navigation = useNavigation();
-
 
     const userDetails = useSelector(state => state.userDetails);
     const { error, loading, user } = userDetails;

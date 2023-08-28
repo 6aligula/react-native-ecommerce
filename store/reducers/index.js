@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { combineReducers } from 'redux';
 import { cartReducer } from './cartReducers';
 import {
     productListReducers,
@@ -13,17 +13,25 @@ import {
     userUpdateProfileReducer,
 } from './userReducers';
 import { orderCreateReducer } from './orderReducer';
+import { persistReducer} from 'redux-persist';
 
-// const persistConfig = {
-//     key: 'cart',
-//     storage: AsyncStorage,
-// };
+const cartPersistConfig = {
+    key: 'cart',
+    storage: AsyncStorage,
+    whitelist: ['cartItems'] // Asumo que 'cartItems' es lo que quieres persistir, modifícalo según tus necesidades.
+};
+
+const userPersistConfig = {
+    key: 'user',
+    storage: EncryptedStorage,
+    whitelist: ['userInfo', 'userDetails']
+};
 
 const rootReducer = combineReducers({
-    cart: cartReducer,
+    cart: persistReducer(cartPersistConfig, cartReducer),
     productList: productListReducers,
     productDetails: productDetailsReducers,
-    userLogin : userLoginReducer,
+    userLogin : persistReducer(userPersistConfig, userLoginReducer),
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile : userUpdateProfileReducer,

@@ -17,6 +17,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
+import Loader from './components/Loader';
 
 const Stack = createStackNavigator();
 
@@ -39,7 +40,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <ColorSchemeProvider>
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={<Loader/>} persistor={persistor}>
           <StripeProvider
             publishableKey={publishableKey}
             merchantIdentifier="merchant.identifier"
