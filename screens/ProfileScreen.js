@@ -84,7 +84,6 @@ const ProfileScreen = ({navigation}) => {
                     </TouchableOpacity>
                     <Text style={styles.title}>Perfil de Usuario</Text>
                     {message && <Message variant='danger'>{message}</Message>}
-                    {error && <Message variant='danger'>{error}</Message>}
                     {errorProfile && <Message variant='danger'>{errorProfile}</Message>}
                     {successMessage && <Message variant='success'>{successMessage}</Message>}
                     {loading && <Text>Cargando...</Text>}

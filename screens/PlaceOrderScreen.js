@@ -13,8 +13,8 @@ const PlaceOrderScreen = ({ navigation }) => {
     useAndroidBackButton(navigation);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    //const orderCreate = useSelector(state => state.orderCreate);
-    //const { order, error, success } = orderCreate;
+    const orderCreate = useSelector(state => state.orderCreate);
+    const { order, error, success } = orderCreate;
 
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
@@ -24,13 +24,13 @@ const PlaceOrderScreen = ({ navigation }) => {
         setTotalPrice(Number(itemsPrice).toFixed(2));
     }, [cart.cartItems]);
 
-    // useEffect(() => {
-    //     if (success) {
-    //         navigation.navigate('Order', { id: order._id });
-    //         dispatch({ type: ORDER_CREATE_RESET });
-    //     }
-    // }, [success, navigation, dispatch]);
-    userInfo = ''
+    useEffect(() => {
+        if (success) {
+            navigation.navigate('OrderScreen', { id: order._id });
+            dispatch({ type: ORDER_CREATE_RESET });
+        }
+    }, [success, navigation, dispatch]);
+
     const placeOrder = () => {
         let orderData = {
             orderItems: cart.cartItems,
@@ -38,9 +38,6 @@ const PlaceOrderScreen = ({ navigation }) => {
             shippingPrice: cart.shippingPrice,
             totalPrice: totalPrice,
         };
-        if (!userInfo) {
-            orderData.email = email;  // Usa el email introducido previamente
-        }
         dispatch(createOrder(orderData));
     };
 
@@ -52,16 +49,17 @@ const PlaceOrderScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
+                {error && <Message variant='danger'>{error}</Message>}
                 <ScrollView>
                     <View style={styles.addressSection}>
-                        <Text style={styles.addressTitle}>Dirección de Envio</Text>
+                        <Text style={styles.subtitle}>Dirección de Envio</Text>
                         <Text style={styles.addressDetails}>{cart.shippingAddress.address}, {cart.shippingAddress.province}, {cart.shippingAddress.city} {cart.shippingAddress.postalCode} </Text>
                         <Text style={styles.addressDetails}>{cart.shippingAddress.recipientName}, {cart.shippingAddress.email} {cart.shippingAddress.mobil} {cart.shippingAddress.comment} </Text>
                     </View>
 
                     {/* Order Items */}
                     <View style={styles.orderSection}>
-                        <Text style={styles.orderTitle}>Productos a pedir</Text>
+                        <Text style={styles.subtitle}>Productos a pedir</Text>
                         {cart.cartItems.length === 0 ? (
                             <Message variant='info'>Tu cesta esta vacia</Message>
                         ) : (
@@ -77,7 +75,7 @@ const PlaceOrderScreen = ({ navigation }) => {
 
                     {/* Order Summary */}
                     <View style={styles.summaryContainer}>
-                        <Text style={styles.summaryTitle}>Resumen del pedido</Text>
+                        <Text style={styles.subtitle}>Resumen del pedido</Text>
                         <Text style={styles.summaryItem}>Total: €{totalPrice}</Text>
                     </View>
 

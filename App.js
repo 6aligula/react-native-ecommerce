@@ -15,6 +15,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
 import Loader from './components/Loader';
@@ -107,6 +108,13 @@ const App = () => {
                 <Stack.Screen
                   name="PlaceOrderScreen"
                   component={PlaceOrderScreen}
+                  options={({ navigation }) => ({
+                    header: () => <CustomHeader navigation={navigation} />,
+                  })}
+                />
+                <Stack.Screen
+                  name="OrderScreen"
+                  component={OrderScreen}
                   options={({ navigation }) => ({
                     header: () => <CustomHeader navigation={navigation} />,
                   })}

@@ -1,32 +1,61 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
+    safeAreaContainer: {
         flex: 1,
-        padding: 10,
     },
-    addressSection: {
-        marginVertical: 10,
+    container: {
+        paddingHorizontal: 16,
+        paddingTop: 16,
     },
-    subtitle: {
+    description: {
+        fontSize: 16,
         color: '#34495e',
+        marginBottom: 16,
+    },
+    title: {
+        fontSize: 24,
         fontWeight: 'bold',
+        marginTop: 16,
+        marginBottom: 8,
+        color: '#2c3e50',
+        textAlign: 'center',
     },
-    addressDetails: {
-        color: '#555',
-    },
-    paymentSection: {
-        marginVertical: 10,
-    },
-    paymentTitle: {
+    subTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
+        marginTop: 16,
+        marginBottom: 8,
+        color: '#2c3e50',
+        textAlign: 'center',
     },
-    paymentDetails: {
-        color: '#555',
+    subTitle2: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 16,
+        marginBottom: 8,
+        color: '#2c3e50',
+        textAlign: 'center',
     },
-    orderSection: {
-        marginVertical: 10,
+    productName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 16,
+        marginBottom: 8,
+        color: '#2c3e50',
     },
+    productPrice: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#27ae60',
+        marginBottom: 8,
+    },
+    productDescription: {
+        fontSize: 14,
+        color: '#34495e',
+        marginBottom: 16,
+    },
+
     itemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',

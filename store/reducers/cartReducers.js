@@ -59,6 +59,12 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
         ...state,
         shippingAddress: action.payload
       }
+    
+    case CART_CLEAR_ITEMS:
+      return {
+        ...state,
+        cartItems: []
+      }
 
     default:
       return state

@@ -3,8 +3,18 @@ import { View, Text } from 'react-native';
 import styles from './styles/MessageStyle';
 
 const Message = ({ variant, children }) => {
-    const backgroundColor = variant === 'danger' ? 'red' : 'green';
+    let backgroundColor;
 
+    switch(variant) {
+        case 'danger':
+            backgroundColor = 'red';
+            break;
+        case 'info':
+            backgroundColor = 'orange';
+            break;
+        default:
+            backgroundColor = 'green';
+    }
     return (
         <View style={[styles.container, { backgroundColor }]}>
             <Text style={styles.text}>{children}</Text>

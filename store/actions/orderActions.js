@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
@@ -46,7 +47,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.post(
-            `/api/orders/add/`,
+            `${Config.API_BASE_URL}/api/orders/add/`,
             order,
             config
         )
@@ -60,12 +61,49 @@ export const createOrder = (order) => async (dispatch, getState) => {
             payload: data
         })
 
-        localStorage.removeItem('cartItems')
+        // localStorage.removeItem('cartItems')
+    } catch (error) {
+        dispatch({
+            type: ORDER_CREATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
+export const getOrderDetails = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_DETAILS_REQUEST
+
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `${Config.API_BASE_URL}/api/orders/${id}/`,
+            config
+        )
+
+        dispatch({
+            type: ORDER_DETAILS_SUCCESS,
+            payload: data
+        })
 
 
     } catch (error) {
         dispatch({
-            type: ORDER_CREATE_FAIL,
+            type: ORDER_DETAILS_FAIL,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

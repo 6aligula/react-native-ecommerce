@@ -12,7 +12,10 @@ import {
     userDetailsReducer,
     userUpdateProfileReducer,
 } from './userReducers';
-import { orderCreateReducer } from './orderReducer';
+import {
+    orderCreateReducer,
+    orderDetailsReducer
+} from './orderReducer';
 import { persistReducer} from 'redux-persist';
 
 const cartPersistConfig = {
@@ -35,7 +38,8 @@ const rootReducer = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile : userUpdateProfileReducer,
-    orderCreate: orderCreateReducer, 
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer, 
 });
 
 export default rootReducer;
