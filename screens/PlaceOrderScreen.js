@@ -26,7 +26,7 @@ const PlaceOrderScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (success) {
-            navigation.navigate('OrderScreen', { id: order._id });
+            navigation.replace('OrderScreen', { orderId: order._id });
             dispatch({ type: ORDER_CREATE_RESET });
         }
     }, [success, navigation, dispatch]);

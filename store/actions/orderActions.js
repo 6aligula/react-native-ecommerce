@@ -110,3 +110,42 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         })
     }
 }
+
+export const listMyOrders = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_LIST_MY_REQUEST
+
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.get(
+            `${Config.API_BASE_URL}/api/orders/myorders/`,
+            config
+        )
+        //console.log("Data from backend:", data);
+        dispatch({
+            type: ORDER_LIST_MY_SUCCESS,
+            payload: data
+        })
+
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_LIST_MY_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}

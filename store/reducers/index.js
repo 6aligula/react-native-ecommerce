@@ -14,7 +14,8 @@ import {
 } from './userReducers';
 import {
     orderCreateReducer,
-    orderDetailsReducer
+    orderDetailsReducer,
+    orderListMyReducer
 } from './orderReducer';
 import { persistReducer} from 'redux-persist';
 
@@ -39,7 +40,8 @@ const rootReducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdateProfile : userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
-    orderDetails: orderDetailsReducer, 
+    orderDetails: orderDetailsReducer,
+    orderListMy: orderListMyReducer, 
 });
 
 export default rootReducer;

@@ -5,12 +5,15 @@ import styles from './styles/MessageStyle';
 const Message = ({ variant, children }) => {
     let backgroundColor;
 
-    switch(variant) {
+    switch (variant) {
         case 'danger':
             backgroundColor = 'red';
             break;
         case 'info':
             backgroundColor = 'orange';
+            break;
+        case 'success-light':
+            backgroundColor = '#90EE90'; // Un verde más claro. Puedes ajustar este valor según lo que prefieras.
             break;
         default:
             backgroundColor = 'green';

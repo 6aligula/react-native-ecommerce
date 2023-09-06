@@ -34,7 +34,7 @@ import {
 
 } from "../constants/userConstants";
 
-//import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
 //import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 export const login = (email, password) => async (dispatch) => {
@@ -76,7 +76,7 @@ export const logout = () => (dispatch) => {
     //localStorage.removeItem('userInfo');
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
-    //dispatch({ type: ORDER_LIST_MY_RESET });
+    dispatch({ type: ORDER_LIST_MY_RESET });
     //dispatch({ type: USER_LIST_RESET });
     //dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
 }

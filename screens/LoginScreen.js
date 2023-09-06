@@ -26,7 +26,14 @@ const LoginScreen = ({ navigation }) => {
     useEffect(() => {
         if (userInfo) {
             console.log('dentro del if en LoginScreen');
-            navigation.replace('ProfileScreen');
+            //navigation.navigate('ProfileScreen');
+            navigation.reset({
+                index: 1,
+                routes: [
+                    { name: 'HomeScreen' },
+                    { name: 'ProfileScreen' },
+                ],
+            });
         }
         
     }, [navigation, userInfo]);

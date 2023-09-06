@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles/OrderStyles';
+import { useFocusEffect } from '@react-navigation/core';
 // import { getOrderDetails, payOrder, deliverOrder } from '../store/actions/orderActions';
 import { getOrderDetails } from '../store/actions/orderActions';
 //import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../store/constants/orderConstants';
@@ -10,12 +11,16 @@ import Message from '../components/Message';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StripePaymentComponent from '../components/StripePaymentComponent';
-// Importa otros componentes de React Native que necesites
 
 const OrderScreen = ({ navigation, route }) => {
-    useAndroidBackButton(navigation);
 
-    const id = route.params.id
+    const customBackAction = () => {
+        navigation.navigate('ProfileScreen');
+    };
+
+    useAndroidBackButton(navigation, customBackAction);
+
+    const { orderId } = route.params
     const dispatch = useDispatch();
 
     const [sdkReady, setSdkReady] = useState(false);
@@ -37,21 +42,17 @@ const OrderScreen = ({ navigation, route }) => {
         itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
     }
 
-    useEffect(() => {
+    useFocusEffect(
+        React.useCallback(() => {
+            if (!userInfo) {
+                navigation.navigate('LoginScreen');
+            }
+            dispatch(getOrderDetails(orderId))
+            //console.log('else')
+            return () => { };
+        }, [dispatch, orderId, userInfo])
+    );
 
-        if (!userInfo) {
-            navigation.navigate('LoginScreen');
-        }
-
-        if (!order || order._id !== Number(id)) {
-            // dispatch({ type: ORDER_PAY_RESET })
-            // dispatch({ type: ORDER_DELIVER_RESET })
-
-            dispatch(getOrderDetails(id))
-
-        }
-
-    }, [dispatch, order, id, userInfo])
 
     // useEffect(() => {
 
@@ -96,19 +97,15 @@ const OrderScreen = ({ navigation, route }) => {
                         <Text style={styles.description}>Dirección: {order.shippingAddress.province}, {order.shippingAddress.city}, {order.shippingAddress.address}, {order.shippingAddress.postalCode}</Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                        {order.isDelivered ? (
-                            <Message variant='success'>Enviado {order.deliveredAt.substring(0, 10)}</Message>
-                        ) : (
-                            <Message variant='info'>No enviado {order.deliveredAt}</Message>
-                        )}
+                        <Message variant={order.isDelivered ? (order.deliveredAt ? 'success' : 'success-light') : 'info'}>
+                            {order.isDelivered ? (order.deliveredAt ? order.deliveredAt.substring(0, 10) : 'Enviado sin fecha') : 'No enviado'}
+                        </Message>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    {order.isPaid ? (
-                        <Message variant='success'>Pagado {order.paidAt.substring(0, 10)}</Message>
-                    ) : (
-                        <Message variant='info'>Sin pagar {order.paidAt}</Message>
-                    )}
+                    <Message variant={order.isPaid ? (order.paidAt ? 'success' : 'success-light') : 'info'}>
+                        {order.isPaid ? (order.paidAt ? order.paidAt.substring(0, 10) : 'Pagado sin fecha') : 'Sin pagar '}
+                    </Message>
                 </View>
 
                 <View>
@@ -134,12 +131,12 @@ const OrderScreen = ({ navigation, route }) => {
 
                 <View>
                     <Text style={styles.subTitle}>Resumen del pedido</Text>
-                    <Text style={styles.description}>Articulos: {itemsPrice}€</Text>
+                    {/* <Text style={styles.description}>Total: {itemsPrice}€</Text> */}
                     <Text style={styles.description}>Envio: {order.shippingPrice}€</Text>
                     <Text style={styles.description}>Total: {order.totalPrice}€</Text>
                 </View>
                 <View>
-                
+
                     {/* {!order.isPaid && (
                         <View>
                             {loadingPay && <Loader />}

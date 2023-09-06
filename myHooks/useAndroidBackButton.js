@@ -1,20 +1,25 @@
 // hooks/useAndroidBackButton.js
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { BackHandler } from 'react-native';
 
 
-const useAndroidBackButton = (navigation) => {
-    const handleBackPress = () => {
-        navigation.goBack(); // Navega de vuelta a la pantalla anterior
+const useAndroidBackButton = (navigation, customBackAction = null) => {
+    const handleBackPress = useCallback(() => {
+        if (customBackAction) {
+            customBackAction();
+        } else {
+            navigation.goBack(); // Navega de vuelta a la pantalla anterior
+        }
         return true;
-    };
+    }, [customBackAction, navigation]);
+
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
         };
-    }, [handleBackPress, navigation]);
+    }, [handleBackPress]);
 };
 
 export default useAndroidBackButton;
