@@ -5,29 +5,25 @@ import { lightTheme, darkTheme } from './globalStyles';
 const ColorSchemeContext = createContext();
 
 export const ColorSchemeProvider = ({ children }) => {
-  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
+  const deviceColorScheme = Appearance.getColorScheme();
+  const [colorScheme, setColorScheme] = useState(deviceColorScheme);
+  
+  const currentStyles = colorScheme === 'light' ? lightTheme : darkTheme;
 
   useEffect(() => {
-    const handleColorSchemeChange = ({ colorScheme }) => {
+    const listener = Appearance.addChangeListener(({ colorScheme }) => {
       setColorScheme(colorScheme);
-    };
+    });
 
-    Appearance.addChangeListener(handleColorSchemeChange);
-
-    return () => {
-      Appearance.removeChangeListener(handleColorSchemeChange);
-    };
+    return () => listener.remove();
   }, []);
 
-  const stylesGlobal = colorScheme === 'dark' ? darkTheme : lightTheme;
-
   return (
-    <ColorSchemeContext.Provider value={{ colorScheme, setColorScheme, stylesGlobal }}>
+    <ColorSchemeContext.Provider value={{stylesGlobal: currentStyles }}>
       {children}
     </ColorSchemeContext.Provider>
   );
 };
-
 export const useColorSchemeContext = () => {
   return useContext(ColorSchemeContext);
 };

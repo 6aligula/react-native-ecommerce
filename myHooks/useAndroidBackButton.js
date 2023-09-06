@@ -7,10 +7,12 @@ const useAndroidBackButton = (navigation, customBackAction = null) => {
     const handleBackPress = useCallback(() => {
         if (customBackAction) {
             customBackAction();
+            return true;
         } else {
             navigation.goBack(); // Navega de vuelta a la pantalla anterior
+            return true;
         }
-        return true;
+        
     }, [customBackAction, navigation]);
 
     useEffect(() => {

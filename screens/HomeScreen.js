@@ -9,10 +9,15 @@ import Paginate from '../components/Paginate';
 import { listProducts } from '../store/actions/productActions';
 import SearchBox from '../components/SearchBox'
 import styles from './styles/HomeStyles';
+import useAndroidBackButton from '../myHooks/useAndroidBackButton';
+import { BackHandler } from 'react-native';
 import { useColorSchemeContext } from '../ColorSchemeContext';
 
 const HomeScreen = ({ navigation }) => {
-  const { stylesGlobal } = useColorSchemeContext();
+  useAndroidBackButton(navigation, () => {
+    BackHandler.exitApp();
+  });
+  const {stylesGlobal}  = useColorSchemeContext();
 
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);

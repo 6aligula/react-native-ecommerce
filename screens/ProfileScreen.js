@@ -42,8 +42,8 @@ const ProfileScreen = ({ navigation }) => {
         navigation.reset({
             index: 1,
             routes: [
-                { name: 'LoginScreen' },
                 { name: 'HomeScreen' },
+                { name: 'LoginScreen' },
             ],
         });
     };

@@ -12,7 +12,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { validateEmail } from '../functions/functions';
 
 const LoginScreen = ({ navigation }) => {
-    useAndroidBackButton(navigation);
+   
+    useAndroidBackButton(navigation, () => {
+        navigation.navigate('HomeScreen');
+    });
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +25,7 @@ const LoginScreen = ({ navigation }) => {
 
     const userLogin = useSelector(state => state.userLogin);
     const { error, loading, userInfo } = userLogin;
-
+    //reiniciar la pila para que HomeScreen esté por debajo y ProfileScreen en la parte superior.
     useEffect(() => {
         if (userInfo) {
             console.log('dentro del if en LoginScreen');
