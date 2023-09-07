@@ -1,10 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 5, // Añadido el padding
   },
   title: {
     fontSize: 24,
@@ -12,9 +10,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  productList: {
-    justifyContent: 'space-between', // Añadido
+  container: {
+    margin: 20,
+    fontFamily: 'Arial',
   },
+
 });
 
 export default styles;

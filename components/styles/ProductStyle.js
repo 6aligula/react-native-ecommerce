@@ -1,37 +1,34 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Dimensions } from 'react-native';
+const screenWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-    card: {
-        flex: 1,
+    row: {
+        flexDirection: 'column',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        paddingVertical: 10,
         margin: 5,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 4,
-        backgroundColor: '#fff',
-        maxWidth: '100%', // Añade el ancho máximo
+        width: (screenWidth / 2) - 10, // Restamos 10 para contar el margen
+    },
+
+    imageContainer: {
+        width: (screenWidth / 2) - 10, // Restamos 10 para contar el margen
+        height: 200,
+        overflow: 'hidden',  // Para recortar cualquier exceso de la imagen
+        borderTopLeftRadius: 4,  // Mantén tus bordes redondeados
+        borderTopRightRadius: 4,  // Mantén tus bordes redondeados
     },
     image: {
         width: '100%',
-        maxWidth: '100%',
-        height: 200,
-        resizeMode: 'contain',
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-    },
-    cardBody: {
-        padding: 10,
+        height: '100%',
+        resizeMode: 'cover',  // Asegura que la imagen cubra completamente el contenedor
     },
     title: {
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
+        width: '100%',
     },
-    rating: {
-        fontSize: 14,
-        marginBottom: 5,
-        flexDirection: 'column', // Añade flexDirection en 'column'
-        
-    },
+
     price: {
         fontSize: 18,
         fontWeight: 'bold',

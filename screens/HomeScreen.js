@@ -12,6 +12,7 @@ import styles from './styles/HomeStyles';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 import { BackHandler } from 'react-native';
 import { useColorSchemeContext } from '../ColorSchemeContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = ({ navigation }) => {
   useAndroidBackButton(navigation, () => {
@@ -36,10 +37,15 @@ const HomeScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  return (
-    <View style={[styles.container, stylesGlobal.background]}>
+  const CombinedHeader = () => (
+    <View style={styles.container}>
       <SearchBox navigation={navigation} />
       <Text style={[styles.title, stylesGlobal.text]}>Últimos productos</Text>
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={[styles.safeArea, stylesGlobal.background]}>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -47,11 +53,11 @@ const HomeScreen = ({ navigation }) => {
       ) : (
         products && (
           <FlatList
-            style={stylesGlobal.background}
+            //style={stylesGlobal.background}
             data={products}
-            renderItem={renderItem}
             keyExtractor={(item) => item._id}
-            contentContainerStyle={styles.productList}
+            renderItem={renderItem}
+            ListHeaderComponent={CombinedHeader}
             numColumns={2}
           />
         )
@@ -64,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
         />
       )}
 
-    </View>
+    </SafeAreaView>
   );
 };
 export default HomeScreen;
