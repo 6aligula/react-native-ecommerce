@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     itemName: {
         flex: 1,
         paddingLeft: 10,
+        color: '#555',
     },
     itemPrice: {
         color: '#555',

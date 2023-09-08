@@ -26,46 +26,75 @@ function ShippingForm({ navigation }) {
     const initialProvince = Object.keys(provincesAndCities)[0];
     const initialCity = provincesAndCities[initialProvince][0];
 
-    const [recipientName, setRecipientName] = useState('');
-    const [province, setProvince] = useState(initialProvince);
-    const [city, setCity] = useState(initialCity);
-    const [postalCode, setPostalCode] = useState('');
-    const [address, setAddress] = useState('');
-    const [comment, setComment] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobil, setMobil] = useState('');
-    const [error, setError] = useState('');
+    //const [error, setError] = useState('');
     const [emailValid, setEmailValid] = useState(true);
+    const [fieldErrors, setFieldErrors] = useState({});
+
+    const [formData, setFormData] = useState({
+        recipientName: '',
+        province: initialProvince,
+        city: initialCity,
+        postalCode: '',
+        address: '',
+        email: '',
+        mobil: '',
+        comment: '',
+        //... otros campos si es necesario
+    });    
 
     useEffect(() => {
         if (shippingAddress) {
-            setRecipientName(shippingAddress.recipientName || '');
-            setProvince(shippingAddress.province || initialProvince);
-            setCity(shippingAddress.city || initialCity);
-            setPostalCode(shippingAddress.postalCode || '');
-            setAddress(shippingAddress.address || '');
-            setComment(shippingAddress.comment || '');
-            setEmail(shippingAddress.email || '');
-            setMobil(shippingAddress.mobil || '');
-
+            setFormData({
+                recipientName: shippingAddress.recipientName || '',
+                province: shippingAddress.province || initialProvince,
+                city: shippingAddress.city || initialCity,
+                postalCode: shippingAddress.postalCode || '',
+                address: shippingAddress.address || '',
+                comment: shippingAddress.comment || '',
+                email: shippingAddress.email || '',
+                mobil: shippingAddress.mobil || ''
+            });
         }
     }, [shippingAddress, initialProvince, initialCity]);
 
+    const validateFields = () => {
+        const errors = {};
+        const fieldsToValidate = {
+            recipientName: 'El nombre del destinatario es obligatorio.',
+            province: 'La provincia es obligatoria.',
+            city: 'La ciudad es obligatoria.',
+            postalCode: 'El código postal es obligatorio.',
+            address: 'La dirección es obligatoria.',
+            email: 'El email es obligatorio.',
+            // Agrega más campos si es necesario
+        };
+
+        for (const [field, errorMessage] of Object.entries(fieldsToValidate)) {
+            if (!formData[field]) {
+                errors[field] = errorMessage;
+            }
+        }
+
+        setFieldErrors(errors);
+        return !Object.keys(errors).length;  // Retorna true si no hay errores (todos los campos están llenos)
+    };
+
     const handleSubmit = () => {
-        if (!recipientName || !province || !city || !postalCode || !address || !email) {
-            setError('Todos los campos son obligatorios, excepto el teléfono móvil y comentario.');
-            console.log(recipientName, province, city, postalCode, address, comment);
+        if (validateFields()) {
+            dispatch(saveShippingAddress({ ...formData }));
+            //console.log(formData.recipientName, formData.province, formData.city, formData.postalCode, formData.address, formData.email, formData.mobil, formData.comment);
+            navigation.navigate('PlaceOrderScreen');
+            console.log('formData correcto: ', formData)
             return;
         }
-        setError('');
-        //dispatch(saveShippingAddress({ recipientName, province, city, postalCode, address, comment, email, mobil }));
-        console.log(recipientName, province, city, postalCode, address, comment);
-        //navigation.navigate('PlaceOrderScreen');
+        //setError('');
+        console.log('error',formData.recipientName, formData.province, formData.city, formData.postalCode, formData.address, formData.email, formData.mobil, formData.comment);
+        
     };
     
-    const handleEmailChange = (email) => {
-        setEmail(email);
-        if (!validateEmail(email)) {
+    const handleEmailChange = (emailValue) => {
+        setFormData(prev => ({ ...prev, email: emailValue}))
+        if (!validateEmail(emailValue)) {
             setEmailValid(false);
         } else {
             setEmailValid(true);
@@ -76,91 +105,110 @@ function ShippingForm({ navigation }) {
         <SafeAreaView style={styles.safeAreaContainer}>
             <ScrollView style={styles.formContainer}>
                 <Text style={styles.title}>Dirección de envio</Text>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Nombre del Destinatario:</Text>
                     <TextInput
-                        value={recipientName}
-                        onChangeText={setRecipientName}
+                        value={formData.recipientName}
+                        onChangeText={(value) => setFormData(prev => ({ ...prev, recipientName: value }))}
                         style={styles.input}
                     />
+                    {fieldErrors.recipientName && <Text style={{ color: 'red' }}>{fieldErrors.recipientName}</Text>}
                 </View>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Provincia:</Text>
                     <Picker
-                        selectedValue={province}
+                        selectedValue={formData.province}
                         style={styles.quantityPicker}
                         onValueChange={(itemValue) => {
-                            setProvince(itemValue)
-                            setCity(provincesAndCities[itemValue][0])
+                            setFormData(prev => ({
+                                ...prev,
+                                province: itemValue,
+                                city: provincesAndCities[itemValue][0]
+                            }));
 
                         }}>
                         {Object.keys(provincesAndCities).map(provinceName => (
                             <Picker.Item key={provinceName} label={provinceName} value={provinceName} />
                         ))}
                     </Picker>
+                    {fieldErrors.province && <Text style={{ color: 'red' }}>{fieldErrors.province}</Text>}
                 </View>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Ciudad:</Text>
                     <Picker
-                        selectedValue={city}
+                        selectedValue={formData.city}
                         style={styles.quantityPicker}
                         onValueChange={(itemValue) => {
-                            setCity(itemValue);
-                        }}
-                    >
-                        {province ? provincesAndCities[province].map(cityName => (
+                            setFormData(prev =>({
+                                ...prev,
+                                city: itemValue
+                            }));
+                        }}>
+                        {formData.province ? provincesAndCities[formData.province].map(cityName => (
                             <Picker.Item key={cityName} label={cityName} value={cityName} />
                         )) : null}
                     </Picker>
+                    {fieldErrors.city && <Text style={{ color: 'red' }}>{fieldErrors.city}</Text>}
                 </View>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Código Postal:</Text>
                     <TextInput
-                        value={postalCode}
-                        onChangeText={setPostalCode}
+                        value={formData.postalCode}
+                        onChangeText={(value) => setFormData(prev => ({ ...prev, postalCode: value }))}
                         style={styles.input}
                         keyboardType='numeric'
                     />
+                    {fieldErrors.postalCode && <Text style={{ color: 'red' }}>{fieldErrors.postalCode}</Text>}
                 </View>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Dirección:</Text>
                     <TextInput
-                        value={address}
-                        onChangeText={setAddress}
+                        value={formData.address}
+                        onChangeText={(value) => setFormData(prev => ({ ...prev, address: value }))}
                         style={styles.input}
                     />
+                    {fieldErrors.address && <Text style={{ color: 'red' }}>{fieldErrors.address}</Text>}
                 </View>
+                
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Email:</Text>
                     <TextInput
-                        value={email}
+                        value={formData.email}
                         onChangeText={handleEmailChange}
                         style={emailValid ? styles.input : { ...styles.input, borderColor: 'red' }}
                     />
                     {!emailValid && <Text style={{ color: 'red' }}>Por favor, ingresa un correo electrónico válido. Solo se acepta letras minúsculas</Text>}
+                    {fieldErrors.email && <Text style={{ color: 'red' }}>{fieldErrors.email}</Text>}
                 </View>
 
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Telefono móvil opcional:</Text>
                     <TextInput
-                        value={mobil}
-                        onChangeText={setMobil}
+                        value={formData.mobil}
+                        onChangeText={(value) => setFormData(prev => ({ ...prev, mobil: value }))}
                         style={styles.input}
                         keyboardType='numeric'
                     />
                 </View>
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Comentario opcional:</Text>
                     <TextInput
-                        value={comment}
-                        onChangeText={setComment}
+                        value={formData.comment}
+                        onChangeText={(value) => setFormData(prev => ({ ...prev, comment: value }))}
                         style={styles.input}
                         multiline
                     />
                 </View>
-                {
+
+                {/* {
                     error && <Text style={{ color: 'red' }}>{error}</Text>
-                }
+                } */}
                 <View style={styles.buttonContainer}>
                     <View style={styles.roundedButton}>
                         <Button
