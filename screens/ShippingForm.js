@@ -54,12 +54,13 @@ function ShippingForm({ navigation }) {
     const handleSubmit = () => {
         if (!recipientName || !province || !city || !postalCode || !address || !email) {
             setError('Todos los campos son obligatorios, excepto el teléfono móvil y comentario.');
+            console.log(recipientName, province, city, postalCode, address, comment);
             return;
         }
         setError('');
-        dispatch(saveShippingAddress({ recipientName, province, city, postalCode, address, comment, email, mobil }));
-        //console.log(recipientName, province, city, postalCode, streetAddress, comment);
-        navigation.navigate('PlaceOrderScreen');
+        //dispatch(saveShippingAddress({ recipientName, province, city, postalCode, address, comment, email, mobil }));
+        console.log(recipientName, province, city, postalCode, address, comment);
+        //navigation.navigate('PlaceOrderScreen');
     };
     
     const handleEmailChange = (email) => {
@@ -90,7 +91,7 @@ function ShippingForm({ navigation }) {
                         style={styles.quantityPicker}
                         onValueChange={(itemValue) => {
                             setProvince(itemValue)
-                            setCity('')
+                            setCity(provincesAndCities[itemValue][0])
 
                         }}>
                         {Object.keys(provincesAndCities).map(provinceName => (
@@ -149,7 +150,7 @@ function ShippingForm({ navigation }) {
                     />
                 </View>
                 <View style={styles.inputField}>
-                    <Text style={styles.label}>Comentario:</Text>
+                    <Text style={styles.label}>Comentario opcional:</Text>
                     <TextInput
                         value={comment}
                         onChangeText={setComment}
