@@ -1,0 +1,107 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, TouchableOpacity, FlatList } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetails } from '../store/actions/userActions';
+import { USER_UPDATE_PROFILE_RESET } from '../store/constants/userConstants';
+import { listMyOrders } from '../store/actions/orderActions';
+import styles from './styles/MyOrdersStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Message from '../components/Message';
+import useAndroidBackButton from '../myHooks/useAndroidBackButton';
+import Loader from '../components/Loader';
+
+const MyOrdersScreen = ({navigation}) => {
+    useAndroidBackButton(navigation, () => {
+        navigation.navigate('ProfileScreen');
+    });
+
+    const dispatch = useDispatch();
+
+    const userDetails = useSelector(state => state.userDetails);
+    const { error, loading, user } = userDetails;
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+
+
+    const orderListMy = useSelector(state => state.orderListMy);
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
+    useEffect(() => {
+        if (!userInfo) {
+            navigation.navigate('LoginScreen');
+        } else {
+            if (!user || !user.name || userInfo._id !== user._id) {
+                dispatch({ type: USER_UPDATE_PROFILE_RESET });
+                dispatch(getUserDetails('profile'));
+                dispatch(listMyOrders());
+            } else {
+                //console.log('else anidado: ', orders)
+                dispatch(listMyOrders());
+            }
+        }
+        return () => {
+        }
+    }, [dispatch, userInfo, user])
+
+
+    const renderOrderItem = ({ item: order }) => (
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate('OrderScreen', { orderId: order._id, fromProfile: true });
+            }}
+        >
+            <View style={[styles.row, styles.rowCell]}>
+                <Text style={[styles.cell, styles.cellID]}>{order._id}</Text>
+                <Text style={[styles.cell, styles.cellFecha]}>{order.createAt.substring(0, 10)}</Text>
+                <Text style={[styles.cell, styles.cellTotal]}>{order.totalPrice}</Text>
+                <Text style={[styles.cell, styles.cellPagado]}>
+                    {order.isPaid ? (order.paidAt ? order.paidAt.substring(0, 10) : 'Pagado sin fecha') : '❌'}
+                </Text>
+                <Text style={[styles.cell, styles.cellEnviado]}>
+                    {order.isDelivered ? (order.deliveredAt ? order.deliveredAt.substring(0, 10) : 'Enviado sin fecha') : '❌'}</Text>
+            </View>
+
+        </TouchableOpacity>
+    );
+
+    const renderOrderHeader = () => (
+        <View>
+            <Text style={styles.title}>Mis Pedidos</Text>
+            <View style={styles.row}>
+                <Text style={[styles.headerCell, styles.cellID]}>ID</Text>
+                <Text style={[styles.headerCell, styles.cellFecha]}>Fecha</Text>
+                <Text style={[styles.headerCell, styles.cellTotal]}>Total</Text>
+                <Text style={[styles.headerCell, styles.cellPagado]}>Pagado</Text>
+                <Text style={[styles.headerCell, styles.cellEnviado]}>Enviado</Text>
+            </View>
+        </View>
+    );
+
+    const CombinedHeader = () => (
+        <View>
+            {/* <UserProfileHeader /> */}
+            {renderOrderHeader()}
+        </View>
+    );
+    return (
+        <SafeAreaView style={styles.safeArea}>
+
+            {loadingOrders ? (
+                <Loader />
+            ) : errorOrders ? (
+                <Message variant='danger'>{errorOrders}</Message>
+            ) : (
+                <FlatList
+                    data={orders}
+                    keyExtractor={(item) => item._id}
+                    renderItem={renderOrderItem}
+                    ListHeaderComponent={CombinedHeader}
+                />
+            )}
+
+        </SafeAreaView>
+    );
+}
+
+export default MyOrdersScreen

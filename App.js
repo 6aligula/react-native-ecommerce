@@ -14,6 +14,7 @@ import ShippingForm from './screens/ShippingForm';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import MyOrdersScreen from './screens/MyOrdersScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -41,7 +42,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <ColorSchemeProvider>
-        <PersistGate loading={<Loader/>} persistor={persistor}>
+        <PersistGate loading={<Loader />} persistor={persistor}>
           <StripeProvider
             publishableKey={publishableKey}
             merchantIdentifier="merchant.identifier"
@@ -101,6 +102,13 @@ const App = () => {
                 <Stack.Screen
                   name="ProfileScreen"
                   component={ProfileScreen}
+                  options={({ navigation }) => ({
+                    header: () => <CustomHeader navigation={navigation} />,
+                  })}
+                />
+                <Stack.Screen
+                  name="MyOrdersScreen"
+                  component={MyOrdersScreen}
                   options={({ navigation }) => ({
                     header: () => <CustomHeader navigation={navigation} />,
                   })}
