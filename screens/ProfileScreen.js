@@ -13,7 +13,12 @@ import Loader from '../components/Loader';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const ProfileScreen = ({ navigation }) => {
-    useAndroidBackButton(navigation);
+
+    const customBackAction = () => {
+        navigation.navigate('HomeScreen');
+    };
+
+    useAndroidBackButton(navigation, customBackAction);
 
     const [fieldErrors, setFieldErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
