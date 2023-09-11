@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, TouchableOpacity, FlatList } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from '../store/actions/userActions';
-import { USER_UPDATE_PROFILE_RESET } from '../store/constants/userConstants';
 import { listMyOrders } from '../store/actions/orderActions';
 import styles from './styles/MyOrdersStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,9 +15,6 @@ const MyOrdersScreen = ({navigation}) => {
 
     const dispatch = useDispatch();
 
-    const userDetails = useSelector(state => state.userDetails);
-    const { error, loading, user } = userDetails;
-
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
 
@@ -30,19 +25,10 @@ const MyOrdersScreen = ({navigation}) => {
     useEffect(() => {
         if (!userInfo) {
             navigation.navigate('LoginScreen');
-        } else {
-            if (!user || !user.name || userInfo._id !== user._id) {
-                dispatch({ type: USER_UPDATE_PROFILE_RESET });
-                dispatch(getUserDetails('profile'));
-                dispatch(listMyOrders());
-            } else {
-                //console.log('else anidado: ', orders)
-                dispatch(listMyOrders());
-            }
-        }
-        return () => {
-        }
-    }, [dispatch, userInfo, user])
+            return;
+        } 
+        dispatch(listMyOrders());
+    }, [dispatch, userInfo])
 
 
     const renderOrderItem = ({ item: order }) => (

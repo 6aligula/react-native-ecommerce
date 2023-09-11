@@ -15,7 +15,7 @@ import StripePaymentComponent from '../components/StripePaymentComponent';
 const OrderScreen = ({ navigation, route }) => {
 
     const customBackAction = () => {
-        navigation.navigate('ProfileScreen');
+        navigation.navigate('MyOrdersScreen');
     };
 
     useAndroidBackButton(navigation, customBackAction);

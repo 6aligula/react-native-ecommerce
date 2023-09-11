@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, Button, ScrollView, Image } from 'react-native';
-import StripePaymentComponent from '../components/StripePaymentComponent';
 import { createOrder } from '../store/actions/orderActions';
 import { ORDER_CREATE_RESET } from '../store/constants/orderConstants';
 import styles from './styles/PlaceOrderScreenStyles';
@@ -18,6 +17,9 @@ const PlaceOrderScreen = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
     
     useEffect(() => {
         const itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
@@ -32,6 +34,9 @@ const PlaceOrderScreen = ({ navigation }) => {
     }, [success, navigation, dispatch]);
 
     const placeOrder = () => {
+        if(!userInfo){
+            return;
+        }
         let orderData = {
             orderItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
@@ -41,16 +46,23 @@ const PlaceOrderScreen = ({ navigation }) => {
         dispatch(createOrder(orderData));
     };
 
-    const handlePayment = async () => {
-        // Llama a la función handlePlaceOrder de StripePaymentComponent para procesar el pago.
-        // Luego, puedes confirmar el pedido, guardarlo en tu base de datos y navegar a la pantalla de confirmación.
-    };
-
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <View style={styles.container}>
-                {error && <Message variant='danger'>{error}</Message>}
                 <ScrollView>
+                    <View>
+                        {!userInfo ? (
+                            <>
+                                <Message variant='danger'>Debes registrarte para proceder al pago.</Message>
+                                <Button
+                                    title='Registrarse'
+                                    onPress={() => navigation.navigate('RegisterScreen')}
+                                />
+                            </>
+                        ) : (
+                           error && <Message variant='danger'>{error}</Message>
+                        )}
+                    </View>
                     <View style={styles.addressSection}>
                         <Text style={styles.subtitle}>Dirección de Envio</Text>
                         <Text style={styles.addressDetails}>{cart.shippingAddress.address}, {cart.shippingAddress.province}, {cart.shippingAddress.city} {cart.shippingAddress.postalCode} </Text>
@@ -81,8 +93,6 @@ const PlaceOrderScreen = ({ navigation }) => {
 
                 </ScrollView>
                 <View style={styles.summaryContainer}>
-                    {/* <Text style={styles.summaryTitle}>Datos de tarjeta</Text>
-                    <StripePaymentComponent /> */}
                     <View style={styles.buttonContainer}>
                         <View style={styles.roundedButton}>
                             <Button
