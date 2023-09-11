@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails, updateUserProfile, logout } from '../store/actions/userActions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { USER_UPDATE_PROFILE_RESET } from '../store/constants/userConstants';
-import { listMyOrders } from '../store/actions/orderActions';
 import styles from './styles/ProfileStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Message from '../components/Message';
@@ -17,6 +15,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 const ProfileScreen = ({ navigation }) => {
     useAndroidBackButton(navigation);
 
+    const [fieldErrors, setFieldErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState('');
+
     const [formData, setFormData] = useState({
         name: '',
         password: '',
@@ -25,8 +26,37 @@ const ProfileScreen = ({ navigation }) => {
         //... otros campos si es necesario
     });
 
-    const [message, setMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    }
+
+    const validateFields = () => {
+        const errors = {};
+        const fieldsToValidate = {
+            name: 'Porfavor introduce un nombre',
+            email: 'Porfavor introduce un correo',
+            password: 'Porfavor introduce una contraseña',
+            confirmPassword: 'Porfavor introduce un contraseña de confirmacion',
+            // Agrega más campos si es necesario
+        };
+
+        for (const [field, errorMessage] of Object.entries(fieldsToValidate)) {
+            if (!formData[field]) {
+                errors[field] = errorMessage;
+            }
+        }
+
+        // Después de verificar que los campos no están vacíos, procedemos con el trim y la comparación
+        const trimmedPassword = formData.password && formData.password.trim();
+        const trimmedConfirmPassword = formData.confirmPassword && formData.confirmPassword.trim();
+
+        if (trimmedPassword !== trimmedConfirmPassword) {
+            errors.confirmPassword = 'Las contraseñas no coinciden';
+        }
+        setSuccessMessage('')
+        setFieldErrors(errors);
+        return !Object.keys(errors).length;  // Retorna true si no hay errores (todos los campos están llenos)
+    };
 
     const dispatch = useDispatch();
 
@@ -63,10 +93,7 @@ const ProfileScreen = ({ navigation }) => {
                 dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(getUserDetails('profile'));
                 setSuccessMessage('Perfil actualizado correctamente');
-                dispatch(listMyOrders());
             } else {
-                //console.log('else anidado: ', orders)
-                dispatch(listMyOrders());
                 setFormData({
                     name: user.name,
                     email: user.email
@@ -77,20 +104,13 @@ const ProfileScreen = ({ navigation }) => {
         }
     }, [dispatch, userInfo, user, success])
 
-
     const submitHandler = () => {
-        const trimmedPassword = formData.password.trim();
-        const trimmedConfirmPassword = formData.confirmPassword.trim();
-        if (trimmedPassword !== trimmedConfirmPassword) {
-            setMessage('Las contraseñas no coinciden');
-
-        } else {
-            //console.log('actualizando');
+        if (validateFields()) {
             dispatch(updateUserProfile({
                 ...formData,
                 'id': user._id,
             }));
-            setMessage('');
+            return;
         }
     };
 
@@ -112,7 +132,6 @@ const ProfileScreen = ({ navigation }) => {
                     </View>
 
                     <Text style={styles.title}>Perfil de Usuario</Text>
-                    {message && <Message variant='danger'>{message}</Message>}
                     {errorProfile && <Message variant='danger'>{errorProfile}</Message>}
                     {successMessage && <Message variant='success'>{successMessage}</Message>}
                     {loading && <Text>Cargando...</Text>}
@@ -121,27 +140,28 @@ const ProfileScreen = ({ navigation }) => {
                         style={[styles.inputField, styles.input]}
                         placeholder="Introduce nombre"
                         value={formData.name}
-                        onChangeText={(value) => setFormData(prev => ({ ...prev, name: value }))}
+                        onChangeText={(value) => handleInputChange('name', value)}
                     />
+                    {fieldErrors.name && <Message variant='danger'>{fieldErrors.name}</Message>}
                     <TextInput
                         style={[styles.inputField, styles.input]}
                         placeholder="Introduce email"
                         value={formData.email}
-                        onChangeText={(value) => setFormData(prev => ({ ...prev, email: value }))}
-                        key="uniqueKeyEmail"
+                        onChangeText={(value) => handleInputChange('email', value)}
                     />
+                    {fieldErrors.email && <Message variant='danger'>{fieldErrors.email}</Message>}
                     <PasswordInput
                         value={formData.password}
-                        onChangeText={(value) => setFormData(prev => ({ ...prev, password: value }))}
+                        onChangeText={(value) => handleInputChange('password', value)}
                         placeholder="Introduce contraseña"
-                        key="uniqueKeyPass"
                     />
+                    {fieldErrors.password && <Message variant='danger'>{fieldErrors.password}</Message>}
                     <PasswordInput
                         placeholder="Confirmar contraseña"
                         value={formData.confirmPassword}
-                        onChangeText={(value) => setFormData(prev => ({ ...prev, confirmPassword: value }))}
-                        key="uniqueKeyConfir"
+                        onChangeText={(value) => handleInputChange('confirmPassword', value)}
                     />
+                    {fieldErrors.confirmPassword && <Message variant='danger'>{fieldErrors.confirmPassword}</Message>}
                     <Button title="Actualizar" onPress={submitHandler} />
                 </View>
 
