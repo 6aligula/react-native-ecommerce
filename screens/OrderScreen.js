@@ -137,17 +137,11 @@ const OrderScreen = ({ navigation, route }) => {
                 </View>
                 <View>
 
-                    {/* {!order.isPaid && (
+                    {!order.isPaid && (
                         <View>
-                            {loadingPay && <Loader />}
-
-                            {sdkReady ? (
-                                <StripePaymentComponent/>
-                            ) : (
-                                <Loader />
-                            )}
+                           {!order.isPaid && <StripePaymentComponent />}
                         </View>
-                    )} */}
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
