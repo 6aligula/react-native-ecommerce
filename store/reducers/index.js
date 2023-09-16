@@ -15,14 +15,15 @@ import {
 import {
     orderCreateReducer,
     orderDetailsReducer,
-    orderListMyReducer
+    orderListMyReducer,
+    orderPaymentDataReducer,
 } from './orderReducer';
 import { persistReducer} from 'redux-persist';
 
 const cartPersistConfig = {
     key: 'cart',
     storage: AsyncStorage,
-    whitelist: ['cartItems'] // Asumo que 'cartItems' es lo que quieres persistir, modifícalo según tus necesidades.
+    whitelist: ['cartItems']
 };
 
 const userPersistConfig = {
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
     userUpdateProfile : userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    orderListMy: orderListMyReducer, 
+    orderListMy: orderListMyReducer,
+    orderPaymentData: orderPaymentDataReducer,
 });
 
 export default rootReducer;

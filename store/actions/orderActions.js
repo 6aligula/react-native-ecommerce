@@ -9,21 +9,13 @@ import {
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
 
-    ORDER_PAY_REQUEST,
-    ORDER_PAY_SUCCESS,
-    ORDER_PAY_FAIL,
+    ORDER_PAYMENT_DATA_REQUEST,
+    ORDER_PAYMENT_DATA_SUCCESS,
+    ORDER_PAYMENT_DATA_FAIL,
 
     ORDER_LIST_MY_REQUEST,
     ORDER_LIST_MY_SUCCESS,
     ORDER_LIST_MY_FAIL,
-
-    ORDER_LIST_REQUEST,
-    ORDER_LIST_SUCCESS,
-    ORDER_LIST_FAIL,
-
-    ORDER_DELIVER_REQUEST,
-    ORDER_DELIVER_SUCCESS,
-    ORDER_DELIVER_FAIL,
 
 } from "../constants/orderConstants";
 
@@ -148,3 +140,42 @@ export const listMyOrders = () => async (dispatch, getState) => {
         })
     }
 }
+
+export const fetchPaymentData = (orderId) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_PAYMENT_DATA_REQUEST
+        });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+        //console.log('Payment action: ', userInfo.token);
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.post(
+            `${Config.API_BASE_URL}/api/orders/${orderId}/make_payment/`,
+            {},
+            config
+        );
+
+        dispatch({
+            type: ORDER_PAYMENT_DATA_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_PAYMENT_DATA_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};

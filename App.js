@@ -20,6 +20,7 @@ import OrderScreen from './screens/OrderScreen';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
 import Loader from './components/Loader';
+import Config from 'react-native-config';
 
 const Stack = createStackNavigator();
 
@@ -30,7 +31,7 @@ const App = () => {
     // Aquí, idealmente, debes llamar a tu servidor y obtener la publishableKey.
     // Por ahora, solo voy a asumir que la obtienes como una constante.
     // Recomiendo fuertemente no hardcodear esta clave y obtenerla desde tu servidor.
-    const key = "pk_test_51NcQayAlhoy5s1XNgSgghu6BM1VNvHVo8l4zf9BFt0MWrWg3XeIj5C4hta5Jw5c6IUTc2Q7DpYgWQArc5viSdlq700B5alYwO4";  // remplaza "tu_publishable_key" por tu clave de Stripe
+    const key = Config.API_KEY_STRIPE;
     setPublishableKey(key);
   };
 
