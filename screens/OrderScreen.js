@@ -81,9 +81,10 @@ const OrderScreen = ({ navigation, route }) => {
 
         if (error) {
             console.log('Error al realizar el pago', error);
-            setPaymentError('Hubo un problema al procesar tu pago. Inténtalo nuevamente.');
+            setPaymentError(error.message);
         } else {
             console.log('Pago exitoso!');
+            setPaymentError('');
             dispatch(getOrderDetails(orderId));
         }
     };
@@ -163,7 +164,7 @@ const OrderScreen = ({ navigation, route }) => {
                                 <View style={styles.buttonContainer}>
                                     <View style={styles.roundedButton}>
                                         <Button
-                                            title='Pagar'
+                                            title='Proceder a Pagar'
                                             onPress={handlePayment}
                                         />
                                     </View>
