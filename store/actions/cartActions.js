@@ -17,7 +17,6 @@ export const saveShippingAddress = (data) => (dispatch) => {
 
 export const addToCart = (id, qty) => async (dispatch) => {
   const { data } = await axios.get(`${Config.API_BASE_URL}/api/products/${id}/`);
-  //console.log(`url:  ${Config.API_BASE_URL}`);
 
   dispatch({
       type: CART_ADD_ITEM,

@@ -124,7 +124,6 @@ export const listMyOrders = () => async (dispatch, getState) => {
             `${Config.API_BASE_URL}/api/orders/myorders/`,
             config
         )
-        //console.log("Data from backend:", data);
         dispatch({
             type: ORDER_LIST_MY_SUCCESS,
             payload: data
@@ -150,7 +149,6 @@ export const fetchPaymentData = (orderId) => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState();
-        //console.log('Payment action: ', userInfo.token);
 
         const config = {
             headers: {

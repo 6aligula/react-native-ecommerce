@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        // Agrega otros estilos que desees
     },
     input: {
         fontWeight: 'bold',
@@ -20,5 +19,4 @@ const styles = StyleSheet.create({
         width: '100%',
     },
 });
-
 export default styles;

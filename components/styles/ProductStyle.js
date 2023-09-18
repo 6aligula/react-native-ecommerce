@@ -7,20 +7,20 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
         paddingVertical: 10,
         margin: 5,
-        width: (screenWidth / 2) - 10, // Restamos 10 para contar el margen
+        width: (screenWidth / 2) - 10,
     },
 
     imageContainer: {
-        width: (screenWidth / 2) - 10, // Restamos 10 para contar el margen
+        width: (screenWidth / 2) - 10,
         height: 200,
-        overflow: 'hidden',  // Para recortar cualquier exceso de la imagen
-        borderTopLeftRadius: 4,  // Mantén tus bordes redondeados
-        borderTopRightRadius: 4,  // Mantén tus bordes redondeados
+        overflow: 'hidden',
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
     },
     image: {
         width: '100%',
         height: '100%',
-        resizeMode: 'cover',  // Asegura que la imagen cubra completamente el contenedor
+        resizeMode: 'cover',
     },
     title: {
         fontSize: 16,

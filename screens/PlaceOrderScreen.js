@@ -20,7 +20,7 @@ const PlaceOrderScreen = ({ navigation }) => {
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
-    
+
     useEffect(() => {
         const itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
         setTotalPrice(Number(itemsPrice).toFixed(2));
@@ -34,7 +34,7 @@ const PlaceOrderScreen = ({ navigation }) => {
     }, [success, navigation, dispatch]);
 
     const placeOrder = () => {
-        if(!userInfo){
+        if (!userInfo) {
             return;
         }
         let orderData = {
@@ -60,7 +60,7 @@ const PlaceOrderScreen = ({ navigation }) => {
                                 />
                             </>
                         ) : (
-                           error && <Message variant='danger'>{error}</Message>
+                            error && <Message variant='danger'>{error}</Message>
                         )}
                     </View>
                     <View style={styles.addressSection}>
@@ -69,7 +69,6 @@ const PlaceOrderScreen = ({ navigation }) => {
                         <Text style={styles.addressDetails}>{cart.shippingAddress.recipientName}, {cart.shippingAddress.email} {cart.shippingAddress.mobil} {cart.shippingAddress.comment} </Text>
                     </View>
 
-                    {/* Order Items */}
                     <View style={styles.orderSection}>
                         <Text style={styles.subtitle}>Productos a pedir</Text>
                         {cart.cartItems.length === 0 ? (
@@ -85,7 +84,6 @@ const PlaceOrderScreen = ({ navigation }) => {
                         )}
                     </View>
 
-                    {/* Order Summary */}
                     <View style={styles.summaryContainer}>
                         <Text style={styles.subtitle}>Resumen del pedido</Text>
                         <Text style={styles.summaryItem}>Total: €{totalPrice}</Text>

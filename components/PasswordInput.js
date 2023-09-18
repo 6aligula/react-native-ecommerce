@@ -22,5 +22,4 @@ const PasswordInput = ({ value, onChangeText, placeholder }) => {
         </View>
     );
 };
-
 export default PasswordInput;

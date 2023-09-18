@@ -2,7 +2,6 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   CART_SAVE_SHIPPING_ADDRESS,
-  CART_SAVE_PAYMENT_METHOD,
   CART_CLEAR_ITEMS,
 } from '../constants/cartConstants';
 
@@ -35,24 +34,22 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       if (existItemToRemove) {
         const newQty = existItemToRemove.qty - qtyToRemove;
         if (newQty <= 0) {
-          // Eliminar completamente el ítem si la cantidad es 0 o menor
           return {
             ...state,
             cartItems: state.cartItems.filter(x => x.product !== itemIdToRemove)
           };
         } else {
-          // Reducir la cantidad del ítem
           return {
             ...state,
             cartItems: state.cartItems.map(x =>
               x.product === itemIdToRemove
-                ? { ...x, qty: newQty } // Nota: aquí usamos x en lugar de itemToRemove ya que no tenemos acceso a todo el objeto del ítem
+                ? { ...x, qty: newQty }
                 : x
             ),
           };
         }
       } else {
-        return state; // No hay cambios si el ítem no se encuentra
+        return state;
       }
     case CART_SAVE_SHIPPING_ADDRESS:
       return {

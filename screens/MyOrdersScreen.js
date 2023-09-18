@@ -66,7 +66,6 @@ const MyOrdersScreen = ({navigation}) => {
 
     const CombinedHeader = () => (
         <View>
-            {/* <UserProfileHeader /> */}
             {renderOrderHeader()}
         </View>
     );

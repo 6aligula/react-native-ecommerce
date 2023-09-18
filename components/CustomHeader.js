@@ -20,7 +20,7 @@ const CustomHeader = ({ locationHome, navigation }) => {
                         <Icon name="arrow-back" size={24} color="#fff" />
                     </TouchableOpacity>
                 )}
-                {/* <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" /> */}
+
                 <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                     <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" />
                 </TouchableOpacity>
@@ -29,6 +29,7 @@ const CustomHeader = ({ locationHome, navigation }) => {
                     <Icon name="person" size={24} color={userInfo ? "green" : "#fff"} />
                     {userInfo && <Text style={styles.usernameText}>{userInfo.name}</Text>}
                 </TouchableOpacity>
+
                 <TouchableOpacity onPress={() => navigation.navigate('CartScreen')} style={styles.cartButton}>
                     <Icon name="cart" size={24} color="#fff" />
                     <View style={styles.cartItemCountContainer}>
@@ -38,8 +39,6 @@ const CustomHeader = ({ locationHome, navigation }) => {
 
             </View>
         </SafeAreaView>
-
     );
 };
-
 export default CustomHeader;

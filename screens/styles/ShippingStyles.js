@@ -19,7 +19,6 @@ const ShippingStyles = StyleSheet.create({
         borderStyle: 'solid', 
         borderRadius: 10
     },
-    
     label: {
         fontSize: 12,
         fontWeight: 'normal',
@@ -27,12 +26,6 @@ const ShippingStyles = StyleSheet.create({
         marginBottom: 4,
         color: '#34495e',
         textAlign: 'center',
-    },
-    select: {
-        width: '100%',
-    },
-    textarea: {
-        width: '100%',
     },
     safeAreaContainer: {
         flex: 1,
@@ -43,8 +36,8 @@ const ShippingStyles = StyleSheet.create({
         alignItems: 'center',
     },
     roundedButton: {
-        borderRadius: 50, // Añade bordes redondeados
-        overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
+        borderRadius: 50,
+        overflow: 'hidden',
     },
     quantityPicker: {
         backgroundColor:'#ECECEC',
@@ -62,5 +55,4 @@ const ShippingStyles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-
 export default ShippingStyles;

@@ -8,16 +8,12 @@ const SearchBox = ({ navigation }) => {
     const { stylesGlobal } = useColorSchemeContext();
     const [searchError, setSearchError] = useState("");
     const [searchKeyword, setSearchKeyword] = useState('');
-    //var contador=0;
-    //contador++;
-    //console.log("searchKeyword in searchbox: ", searchKeyword, contador);
 
     const handleSearch = () => {
         const trimmedSearchKeyword = searchKeyword.trim();
         if (trimmedSearchKeyword === "") {
             setSearchError("Introduce un producto a buscar");
         } else {
-            //console.log("dentro del else");
             setSearchError("");
             navigation.navigate('SearchScreen', { searchKeyword: trimmedSearchKeyword });
         }
@@ -37,5 +33,4 @@ const SearchBox = ({ navigation }) => {
         </View>
     );
 };
-
 export default SearchBox;

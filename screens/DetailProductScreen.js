@@ -33,25 +33,19 @@ function DetailProductScreen({ navigation, route }) {
   });
 
   const handleAddToCart = (selectedQty) => {
-    console.log("id: ", productId, "cantidad: ", selectedQty)
     dispatch(addToCart(productId, selectedQty));
   };
 
   useEffect(() => {
-    console.log("id: ", productId, "1er usseEffect qty: ", qtyDetail)
     dispatch(listProductDetails(productId));
   }, [dispatch, productId]);
 
   useEffect(() => {
     const availableStock = calculateAvailableStock();
-    console.log("id: ", productId, "2do useEffect qty: ", qtyDetail, 'disponible ', availableStock)
 
-    // Si qtyDetail es cero (o no definido), lo establecemos al availableStock
     if (qtyDetail <= 0) {
       setQtyDetail(availableStock);
     } else if (typeof availableStock === "number" && !isNaN(availableStock) && availableStock < qtyDetail) {
-      // Si qtyDetail es mayor que el availableStock, ajustamos qtyDetail
-      console.log("id: ", productId, "dentro del if qty: ", qtyDetail, 'disponible ', availableStock)
       setQtyDetail(availableStock);
     }
   }, [product, cartItems]);
@@ -81,7 +75,6 @@ function DetailProductScreen({ navigation, route }) {
             </View>
             <Text style={styles.productPrice}>Precio: €{product.price}</Text>
             <Text style={styles.productDescription}>Descripción: {product.description}</Text>
-            {/* Añade aquí el resto de los componentes relacionados con la lógica del componente */}
             <Text style={styles.productAvailability}>Disponibilidad: {availableStock > 0 ? `${availableStock} uds ` : 'Fuera de stock'}</Text>
             {availableStock > 0 && (
               <View style={styles.quantityContainer}>
@@ -90,7 +83,6 @@ function DetailProductScreen({ navigation, route }) {
                   selectedValue={qtyDetail}
                   style={styles.quantityPicker}
                   onValueChange={(itemValue) => {
-                    console.log("Picker cambió:", itemValue, 'qtyDetail: ', qtyDetail);
                     setQtyDetail(itemValue);
                   }}
                 >

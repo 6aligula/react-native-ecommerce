@@ -15,15 +15,6 @@ const styles = StyleSheet.create({
     addressDetails: {
         color: '#555',
     },
-    paymentSection: {
-        marginVertical: 10,
-    },
-    paymentTitle: {
-        fontWeight: 'bold',
-    },
-    paymentDetails: {
-        color: '#555',
-    },
     orderSection: {
         marginVertical: 10,
     },
@@ -50,22 +41,8 @@ const styles = StyleSheet.create({
     summaryContainer: {
         marginVertical: 10,
     },
-    summaryTitle: {
-        fontWeight: 'bold',
-    },
     summaryItem: {
         color: '#555',
-    },
-    placeOrderButton: {
-        backgroundColor: '#007bff',
-        padding: 10,
-        alignItems: 'center',
-        borderRadius: 5,
-        marginTop: 10,
-    },
-    placeOrderButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
     },
     safeAreaContainer: {
         flex: 1,
@@ -76,8 +53,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     roundedButton: {
-        borderRadius: 50, // Añade bordes redondeados
-        overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
+        borderRadius: 50,
+        overflow: 'hidden',
     },
 });
 

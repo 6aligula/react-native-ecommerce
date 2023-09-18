@@ -7,16 +7,6 @@ import {
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL,
 
-    PRODUCT_CREATE_REVIEW_REQUEST,
-    PRODUCT_CREATE_REVIEW_SUCCESS,
-    PRODUCT_CREATE_REVIEW_FAIL,
-    PRODUCT_CREATE_REVIEW_RESET,
-
-    PRODUCT_TOP_REQUEST,
-    PRODUCT_TOP_SUCCESS,
-    PRODUCT_TOP_FAIL,
-
-
 } from '../constants/productConstants'
 
 export const productListReducers = (state = { products: [] }, action) => {

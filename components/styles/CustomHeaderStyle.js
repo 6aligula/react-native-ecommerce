@@ -4,29 +4,26 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between', // Cambiado a 'space-between'
+        justifyContent: 'space-between',
         height: 60,
         backgroundColor: '#333',
-        paddingHorizontal: 10, // Añadido para dar un margen a ambos lados
+        paddingHorizontal: 10,
     },
     backButton: {
-        paddingRight: 10, // Cambiado a paddingRight para que el botón tenga margen interno a la derecha
+        paddingRight: 10,
     },
     logo: {
         width: 50,
         height: 50,
         resizeMode: 'contain',
     },
-    rightButtons: {
-        flexDirection: 'row', // Añadido para que los íconos estén en fila
-    },
     loginButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: 10, // Añadido para separar los íconos
+        marginRight: 10,
     },
     cartButton: {
-        paddingLeft: 10, // Cambiado a paddingLeft para que el botón tenga margen interno a la izquierda
+        paddingLeft: 10,
     },
     cartItemCountContainer: {
         position: 'absolute',

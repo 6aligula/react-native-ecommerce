@@ -1,7 +1,5 @@
-// hooks/useAndroidBackButton.js
 import { useEffect, useCallback } from 'react';
 import { BackHandler } from 'react-native';
-
 
 const useAndroidBackButton = (navigation, customBackAction = null) => {
     const handleBackPress = useCallback(() => {
@@ -9,7 +7,7 @@ const useAndroidBackButton = (navigation, customBackAction = null) => {
             customBackAction();
             return true;
         } else {
-            navigation.goBack(); // Navega de vuelta a la pantalla anterior
+            navigation.goBack();
             return true;
         }
         

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
 import { useFocusEffect } from '@react-navigation/core';
@@ -53,7 +53,6 @@ const HomeScreen = ({ navigation }) => {
       ) : (
         products && (
           <FlatList
-            //style={stylesGlobal.background}
             data={products}
             keyExtractor={(item) => item._id}
             renderItem={renderItem}

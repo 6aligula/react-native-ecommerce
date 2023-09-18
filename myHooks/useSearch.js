@@ -1,4 +1,3 @@
-// hooks/useSearch.js
 import { useDispatch } from 'react-redux';
 import { listProducts } from '../store/actions/productActions';
 

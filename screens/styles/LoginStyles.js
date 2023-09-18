@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
 
     },
     roundedButton: {
-        borderRadius: 25, // Añade bordes redondeados
-        overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
+        borderRadius: 25,
+        overflow: 'hidden',
     },
 });
 

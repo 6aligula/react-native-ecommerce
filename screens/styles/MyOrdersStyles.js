@@ -38,19 +38,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     cellID: {
-        flex: 0.10,  // 15% del ancho
+        flex: 0.10,
     },
     cellFecha: {
-        flex: 0.25,  // 25% del ancho
+        flex: 0.25,
     },
     cellTotal: {
-        flex: 0.2,  // 20% del ancho
+        flex: 0.2,
     },
     cellPagado: {
-        flex: 0.25,  // 20% del ancho
+        flex: 0.25,
     },
     cellEnviado: {
-        flex: 0.2,  // 20% del ancho
+        flex: 0.2,
     },
 });
 

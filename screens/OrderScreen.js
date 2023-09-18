@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles/OrderStyles';
-import { useFocusEffect } from '@react-navigation/core';
 import { getOrderDetails, fetchPaymentData } from '../store/actions/orderActions';
-//import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../store/constants/orderConstants';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import useAndroidBackButton from '../myHooks/useAndroidBackButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
-//import StripePaymentComponent from '../components/StripePaymentComponent';
 import { usePaymentSheet } from '@stripe/stripe-react-native';
 
 const OrderScreen = ({ navigation, route }) => {
@@ -36,11 +33,6 @@ const OrderScreen = ({ navigation, route }) => {
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
 
-    let itemsPrice;
-    if (order && order.orderItems) {
-        itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
-    }
-
     const isLoading = loadingPaymentData || loadingPay;
 
     useEffect(() => {
@@ -51,7 +43,6 @@ const OrderScreen = ({ navigation, route }) => {
 
     }, [dispatch, orderId, userInfo, navigation]);
 
-    // Efecto para inicializar la PaymentSheet con los datos del pago
     useEffect(() => {
         if (order && !order.isPaid && !hasRequestedPaymentData) {
             dispatch(fetchPaymentData(orderId));
@@ -66,24 +57,21 @@ const OrderScreen = ({ navigation, route }) => {
                 merchantDisplayName: "JM Jardiners"
             }).then((result) => {
                 if (result.error) {
-                    console.log('Error al inicializar PaymentSheet', result.error);
+                    setPaymentError(result.error);
                 }
             });
         }
     }, [paymentData, initPaymentSheet, order, hasRequestedPaymentData]);
 
     const handlePayment = async () => {
-        //console.log('dentro de paymentSheet: ')
         if (loadingPay) {
             return <Loader />;
         }
         const { error } = await presentPaymentSheet();
 
         if (error) {
-            console.log('Error al realizar el pago', error);
             setPaymentError(error.message);
         } else {
-            console.log('Pago exitoso!');
             setPaymentError('');
             dispatch(getOrderDetails(orderId));
         }
@@ -151,7 +139,6 @@ const OrderScreen = ({ navigation, route }) => {
 
                     <View>
                         <Text style={styles.subTitle}>Resumen del pedido</Text>
-                        {/* <Text style={styles.description}>Total: {itemsPrice}€</Text> */}
                         <Text style={styles.description}>Envio: {order.shippingPrice}€</Text>
                         <Text style={styles.description}>Total: {order.totalPrice}€</Text>
                     </View>

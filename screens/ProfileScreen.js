@@ -28,7 +28,6 @@ const ProfileScreen = ({ navigation }) => {
         password: '',
         email: '',
         confirmPassword: '',
-        //... otros campos si es necesario
     });
 
     const handleInputChange = (field, value) => {
@@ -42,7 +41,6 @@ const ProfileScreen = ({ navigation }) => {
             email: 'Porfavor introduce un correo',
             password: 'Porfavor introduce una contraseña',
             confirmPassword: 'Porfavor introduce un contraseña de confirmacion',
-            // Agrega más campos si es necesario
         };
 
         for (const [field, errorMessage] of Object.entries(fieldsToValidate)) {
@@ -51,7 +49,6 @@ const ProfileScreen = ({ navigation }) => {
             }
         }
 
-        // Después de verificar que los campos no están vacíos, procedemos con el trim y la comparación
         const trimmedPassword = formData.password && formData.password.trim();
         const trimmedConfirmPassword = formData.confirmPassword && formData.confirmPassword.trim();
 
@@ -60,7 +57,7 @@ const ProfileScreen = ({ navigation }) => {
         }
         setSuccessMessage('')
         setFieldErrors(errors);
-        return !Object.keys(errors).length;  // Retorna true si no hay errores (todos los campos están llenos)
+        return !Object.keys(errors).length;
     };
 
     const dispatch = useDispatch();
@@ -119,11 +116,16 @@ const ProfileScreen = ({ navigation }) => {
         }
     };
 
-    return (
+    return loading ? (
+        <Loader />
+    ) : error ? (
+        <View>
+            {error && <Message variant='danger'>{error}</Message>}
+        </View>
+    ) : (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView>
                 <View style={styles.container}>
-
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity style={styles.logoutButton} onPress={logoutHandler}>
                             <FontAwesome name="lock" size={20} color="white" />
@@ -168,10 +170,9 @@ const ProfileScreen = ({ navigation }) => {
                     />
                     {fieldErrors.confirmPassword && <Message variant='danger'>{fieldErrors.confirmPassword}</Message>}
                     <Button title="Actualizar" onPress={submitHandler} />
+
                 </View>
-
             </ScrollView>
-
         </SafeAreaView>
     );
 }

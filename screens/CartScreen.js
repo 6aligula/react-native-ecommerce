@@ -21,12 +21,10 @@ function CartScreen({ navigation }) {
       cartItems.reduce((acc, item) => ({ ...acc, [item.product]: item.qty }), {})
       
     );
-    console.log("Cantidades de los artículos:", cartItems.map(item => ({ id: item.product, qty: item.qty })));
   }, [cartItems]);
 
   const removeFromCartHandler = (id) => {
     const qtyToRemove = selectedQtys[id] || 1;
-    console.log("id: ", id, "cantidad: ", qtyToRemove)
     dispatch(removeFromCart(id, qtyToRemove));
   };
 
@@ -56,7 +54,6 @@ function CartScreen({ navigation }) {
                     selectedValue={selectedQtys[item.product] || item.qty}
                     style={styles.quantityPicker}
                     onValueChange={(itemValue) => {
-                      //console.log("Picker cambio delete: ", itemValue);
                       handleQuantityChange(item.product, itemValue)
 
                     }}

@@ -48,14 +48,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     roundedButton: {
-        borderRadius: 50, // Añade bordes redondeados
-        overflow: 'hidden', // Oculta el contenido que sobresale de los bordes redondeados
+        borderRadius: 50,
+        overflow: 'hidden',
     },
-    quantityLabel: {
-        // ... Otros estilos
-        marginBottom: 1, // Añade un margen inferior más pequeño
-    },
-
     quantityContainer: {
         marginBottom: 16,
     },

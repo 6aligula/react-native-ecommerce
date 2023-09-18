@@ -13,7 +13,7 @@ const Message = ({ variant, children }) => {
             backgroundColor = 'orange';
             break;
         case 'success-light':
-            backgroundColor = '#90EE90'; // Un verde más claro. Puedes ajustar este valor según lo que prefieras.
+            backgroundColor = '#90EE90';
             break;
         default:
             backgroundColor = 'green';

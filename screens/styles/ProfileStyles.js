@@ -32,44 +32,38 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         width: '100%',
     },
-    screenContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     logoutButton: {
-        flexDirection: 'row', // Agregar dirección de fila para que el ícono y el texto estén en línea horizontal
-        width: 80, // Aumentar el ancho según tus necesidades debido al ícono adicional
+        flexDirection: 'row',
+        width: 80,
         height: 50,
         backgroundColor: 'gray',
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-        padding: 10, // Añade padding para dar espacio alrededor del ícono y el texto
+        padding: 10,
     },
     myOrdersButton: {
-        flexDirection: 'row', // Agregar dirección de fila para que el ícono y el texto estén en línea horizontal
-        width: 100, // Aumentar el ancho según tus necesidades debido al ícono adicional
+        flexDirection: 'row',
+        width: 100,
         height: 60,
         backgroundColor: 'gray',
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-        padding: 10, // Añade padding para dar espacio alrededor del ícono y el texto
+        padding: 10,
     },
     buttonsContainer: {
-        flexDirection: 'row', // Define una dirección de fila para los hijos
-        justifyContent: 'space-between', // Distribuye el espacio entre los botones
-        alignItems: 'center', // Alinea los botones verticalmente en el centro
-        marginBottom: 20, // Añade un margen inferior para separar de otros elementos
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
     },
     logoutText: {
         color: 'white',
         fontWeight: 'bold',
-        marginLeft: 10, // Añade margen izquierdo para separar el texto del ícono
+        marginLeft: 10,
     },
 });
-
 export default styles;

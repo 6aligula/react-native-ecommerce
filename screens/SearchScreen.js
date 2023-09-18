@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/core';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
@@ -13,6 +13,10 @@ import useAndroidBackButton from '../myHooks/useAndroidBackButton'
 
 
 const SearchScreen = ({ navigation, route }) => {
+
+    useAndroidBackButton(navigation, () => {
+        navigation.navigate('HomeScreen');
+    });
     const { stylesGlobal } = useColorSchemeContext();
     const { searchKeyword } = route.params;
     const dispatch = useDispatch();

@@ -28,9 +28,6 @@ const App = () => {
   const [publishableKey, setPublishableKey] = useState('');
 
   const fetchPublishableKey = async () => {
-    // Aquí, idealmente, debes llamar a tu servidor y obtener la publishableKey.
-    // Por ahora, solo voy a asumir que la obtienes como una constante.
-    // Recomiendo fuertemente no hardcodear esta clave y obtenerla desde tu servidor.
     const key = Config.API_KEY_STRIPE;
     setPublishableKey(key);
   };
@@ -139,5 +136,4 @@ const App = () => {
     </Provider>
   );
 };
-
 export default App;

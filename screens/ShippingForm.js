@@ -26,7 +26,6 @@ function ShippingForm({ navigation }) {
     const initialProvince = Object.keys(provincesAndCities)[0];
     const initialCity = provincesAndCities[initialProvince][0];
 
-    //const [error, setError] = useState('');
     const [emailValid, setEmailValid] = useState(true);
     const [fieldErrors, setFieldErrors] = useState({});
 
@@ -39,8 +38,7 @@ function ShippingForm({ navigation }) {
         email: '',
         mobil: '',
         comment: '',
-        //... otros campos si es necesario
-    });    
+    });
 
     useEffect(() => {
         if (shippingAddress) {
@@ -66,7 +64,6 @@ function ShippingForm({ navigation }) {
             postalCode: 'El código postal es obligatorio.',
             address: 'La dirección es obligatoria.',
             email: 'El email es obligatorio.',
-            // Agrega más campos si es necesario
         };
 
         for (const [field, errorMessage] of Object.entries(fieldsToValidate)) {
@@ -76,31 +73,26 @@ function ShippingForm({ navigation }) {
         }
 
         setFieldErrors(errors);
-        return !Object.keys(errors).length;  // Retorna true si no hay errores (todos los campos están llenos)
+        return !Object.keys(errors).length;
     };
 
     const handleSubmit = () => {
         if (validateFields()) {
             dispatch(saveShippingAddress({ ...formData }));
-            //console.log(formData.recipientName, formData.province, formData.city, formData.postalCode, formData.address, formData.email, formData.mobil, formData.comment);
             navigation.navigate('PlaceOrderScreen');
-            console.log('formData correcto: ', formData)
             return;
         }
-        //setError('');
-        console.log('error',formData.recipientName, formData.province, formData.city, formData.postalCode, formData.address, formData.email, formData.mobil, formData.comment);
-        
     };
-    
+
     const handleEmailChange = (emailValue) => {
-        setFormData(prev => ({ ...prev, email: emailValue}))
+        setFormData(prev => ({ ...prev, email: emailValue }))
         if (!validateEmail(emailValue)) {
             setEmailValid(false);
         } else {
             setEmailValid(true);
         }
     };
-    
+
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
             <ScrollView style={styles.formContainer}>
@@ -142,7 +134,7 @@ function ShippingForm({ navigation }) {
                         selectedValue={formData.city}
                         style={styles.quantityPicker}
                         onValueChange={(itemValue) => {
-                            setFormData(prev =>({
+                            setFormData(prev => ({
                                 ...prev,
                                 city: itemValue
                             }));
@@ -174,7 +166,7 @@ function ShippingForm({ navigation }) {
                     />
                     {fieldErrors.address && <Text style={{ color: 'red' }}>{fieldErrors.address}</Text>}
                 </View>
-                
+
                 <View style={styles.inputField}>
                     <Text style={styles.label}>Email:</Text>
                     <TextInput
@@ -205,10 +197,6 @@ function ShippingForm({ navigation }) {
                         multiline
                     />
                 </View>
-
-                {/* {
-                    error && <Text style={{ color: 'red' }}>{error}</Text>
-                } */}
                 <View style={styles.buttonContainer}>
                     <View style={styles.roundedButton}>
                         <Button
