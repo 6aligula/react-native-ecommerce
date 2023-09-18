@@ -20,7 +20,10 @@ const CustomHeader = ({ locationHome, navigation }) => {
                         <Icon name="arrow-back" size={24} color="#fff" />
                     </TouchableOpacity>
                 )}
-                <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" />
+                {/* <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" /> */}
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+                    <Image source={logo} style={styles.logo} alt="Logotipo de jardinería y piscinas" />
+                </TouchableOpacity>
                 
                 <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} style={styles.loginButton}>
                     <Icon name="person" size={24} color={userInfo ? "green" : "#fff"} />

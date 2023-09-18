@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
         paddingRight: 10, // Cambiado a paddingRight para que el botón tenga margen interno a la derecha
     },
     logo: {
-        width: '20%',
-        height: '80%',
+        width: 50,
+        height: 50,
         resizeMode: 'contain',
     },
     rightButtons: {
