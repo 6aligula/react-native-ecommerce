@@ -76,6 +76,8 @@ const MyOrdersScreen = ({navigation}) => {
                 <Loader />
             ) : errorOrders ? (
                 <Message variant='danger'>{errorOrders}</Message>
+            ) : orders.length === 0 ? (
+                <Message variant='info'>No tienes pedidos realizados</Message>
             ) : (
                 <FlatList
                     data={orders}
