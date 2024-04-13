@@ -1,4 +1,4 @@
-package com.ecommerce;
+package com.jmjardiners;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

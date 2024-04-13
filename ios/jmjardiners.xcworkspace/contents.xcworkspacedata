@@ -2,12 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "absolute:ecommerce.xcodeproj">
+      location = "absolute:jmjardiners.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ecommerce.xcodeproj">
+      location = "group:jmjardiners.xcodeproj">
    </FileRef>
 </Workspace>

@@ -21,7 +21,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'ecommerce' do
+target 'jmjardiners' do
   
   config = use_native_modules!
 
@@ -44,7 +44,7 @@ target 'ecommerce' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'ecommerceTests' do
+  target 'jmjardinersTests' do
     inherit! :complete
     # Pods for testing
   end
